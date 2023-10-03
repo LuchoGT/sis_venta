@@ -1,0 +1,64 @@
+@import '../../../../../theme/variables/colors';
+
+.teacher-add{
+    background-color: #FFF;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 30px 20px;
+
+    &__form{
+        margin-top: 3rem;
+        display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 1.5rem;
+    }
+    &__content{
+        display: flex;
+        flex-direction: column;
+        width: 22rem;
+        &--min{
+            width: 10rem;
+        }
+    }
+    &__name{
+        margin-bottom: .5rem;
+    }
+    &__input{
+        border-radius: .6rem;
+        padding: .5rem;
+        border: 1px solid black;
+        outline: none;
+    }
+    &__separate{
+        border-top: 2px solid yellow;
+    }
+
+    &__buttons{
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 102px;
+    }
+
+    &__button{
+        background-color:$button-add ;
+        letter-spacing: 0px ;
+        padding: 10px 63px ;
+        font-size: 16px;
+        color: $white ;
+        border: 1px solid $button-add;
+        box-shadow: none;
+        border-radius: .5rem;
+        &--efect{
+            background-color: $white;
+            margin-right: 1rem;
+            color: $button-add;
+        }
+    }
+}
+
+.hidden{
+    display: none;
+}

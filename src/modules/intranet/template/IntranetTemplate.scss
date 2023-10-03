@@ -1,0 +1,11 @@
+.intranetTemplate{
+    &__main{
+        position: relative;
+        left: 250px;
+        background-color: #F4F4F4;
+        min-height: 100vh;
+        width: calc(100% - 250px);
+        // padding: 10px 14px;
+        // transition: var(--tran-05);
+    }
+}

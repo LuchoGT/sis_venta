@@ -1,0 +1,14 @@
+.courses{
+    &__add{
+        display: flex;
+        justify-content: flex-end;
+       div{
+        padding: .5rem;
+        background: red;
+       }
+    }
+}
+
+.hidden{
+    display: none;
+}

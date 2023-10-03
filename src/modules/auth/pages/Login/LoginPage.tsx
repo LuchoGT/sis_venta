@@ -1,5 +1,7 @@
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import './LoginPage.scss';
+import { useAuth } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 type FormData={
     email:string,
@@ -7,15 +9,21 @@ type FormData={
   }
 export const LoginPage = (): JSX.Element => {
 
+  const navigate = useNavigate();
+
     const {
       register,
       handleSubmit,
       formState: { errors },
     } = useForm<FormData>();
 
-    const onSubmit=(data)=>{
-        console.log(data);
-    }
+  const {onLogin} = useAuth();
+
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    onLogin(data.email,data.password);  
+    navigate('/dash/docente');  
+    console.log(data);
+  };
 
   return (
     <main className="login">

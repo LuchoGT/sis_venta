@@ -1,0 +1,28 @@
+@import '../../../../../theme/variables/colors';
+
+.header{
+    display: flex;
+    justify-content: flex-end;
+    height: 5rem;
+    background: $primary;
+    &__container{
+        display: flex;
+        padding: 0rem;
+        justify-content: center;
+        align-items: center;
+        margin-right: 2rem;
+    }
+    &__figure{
+        position: relative;
+        width: 3rem;
+        height: 3rem;
+        background: $white;
+        margin-right: 1rem;
+        border-radius: 50%;
+    }
+    &__logout{
+        padding: .5rem;
+        background: $primary-button;
+        color: $white;
+    }
+}
