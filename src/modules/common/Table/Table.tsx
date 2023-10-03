@@ -3,8 +3,12 @@ import "./Table.scss";
 import { OptionIcon } from "@/assets/icon/OptionIcon";
 import { useState } from "react";
 
-export const Table = () => {
-  const { header, teachers, teacherOption } = useTable();
+interface props{
+  openTeacherAdd:()=>void
+}
+
+export const Table = ({openTeacherAdd}:props) => {
+  const { header, teachers, teacherOption} = useTable();
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
@@ -33,8 +37,8 @@ export const Table = () => {
                 }`}
               >
                 {teacherOption.map((item, index) => (
-                  <li key={index} className="menu-option__item">
-                    {item.name}
+                  <li key={index} className="menu-option__item" onClick={openTeacherAdd}>
+                    {item.name} 
                   </li>
                 ))}
               </ul>

@@ -1,5 +1,5 @@
-import { Table } from '@/modules/common/Table/Table'
 import './CoursesList.scss'
+import { CoursesTable } from '../CoursesTable/CoursesTable'
 
 interface props{
   isCourseOpen:boolean
@@ -10,7 +10,7 @@ export const CoursesList = ({isCourseOpen}:props) => {
         <div className='courses__add'>
             <div>Agregar</div>
         </div>
-        <Table/>
+        <CoursesTable/>
     </div>
   )
 }

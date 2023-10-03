@@ -1,3 +1,5 @@
+import { useForm } from 'react-hook-form';
+import { useProbando } from '../../molecules/TeacherAddContent/useProbando';
 import './TeacherAdd.scss';
 
 interface props{
@@ -5,11 +7,45 @@ interface props{
   closeTeacherAdd:()=> void,
 }
 export const TeacherAdd = ({isTeacherAdd,closeTeacherAdd}:props) => {
+
+  const {content} = useProbando();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className={`${isTeacherAdd ? "teacher-add" : 'hidden'}`}>
       <h1>Agregar docente</h1>
-      <form className='teacher-add__form'>
-        <div className='teacher-add__content'>
+      <form className='teacher-add__form' onSubmit={handleSubmit(onSubmit)}>
+        {
+          content.map((item,index)=>(
+          <div className={item.style} key={index}>
+            <label className='teacher-add__name'>{item.label}</label>
+            <input
+              className='teacher-add__input'
+              placeholder={item.placeholder}
+              type="text"
+              {
+                ...register(`${item.label}`,{
+                  required:{
+                    value:true,
+                    message: `${item.label} es requerido.`
+                  },
+                })
+              }
+              />
+            {errors[item.label] && <span>{errors[item.label].message}</span>}
+          </div>
+          ))
+        }
+        {/* <div className='teacher-add__content'>
           <label className='teacher-add__name'>Nombre</label>
           <input
             className='teacher-add__input'
@@ -40,7 +76,7 @@ export const TeacherAdd = ({isTeacherAdd,closeTeacherAdd}:props) => {
             className='teacher-add__input' 
             type="text" />
         </div>
-        <div className='teacher-add__separate'/>
+        <div className='teacher-add__separate'></div>
         <div className='teacher-add__content'>
           <label className='teacher-add__name'>Usuario</label>
           <input
@@ -52,12 +88,12 @@ export const TeacherAdd = ({isTeacherAdd,closeTeacherAdd}:props) => {
           <input
             className='teacher-add__input' 
             type="text" />
-        </div>
+        </div> */}
         <div className='teacher-add__buttons'>
-          <div onClick={closeTeacherAdd} className='teacher-add__button teacher-add__button--efect'>
+          <button onClick={closeTeacherAdd} className='teacher-add__button teacher-add__button--efect'>
             Cancelar
-          </div>
-          <div className='teacher-add__button'>Agregar</div>
+          </button>
+          <button type='submit' className='teacher-add__button'>Agregar</button>
         </div>
       </form>
     </div>

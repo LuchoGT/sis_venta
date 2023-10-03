@@ -54,7 +54,9 @@ export const TeacherPage = () => {
             <span>Agregar Docente</span>
           </div>
         </div>
-        <Table />
+        <Table 
+          openTeacherAdd={openTeacherAdd}
+        />
         <TeacherAdd
           isTeacherAdd={isTeacherAdd}
           closeTeacherAdd={closeTeacherAdd}

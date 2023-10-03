@@ -12,18 +12,23 @@ interface Option{
     funcion: ()=>void;
 }
 
+
 export const useTable = () => {
   
     const [header, setHeader] = useState<Array<HeaderTable>>([])
 
     const [teachers, setTeachers] = useState<Array<Teacher>>([])
 
+
     const [teacherOption, setTeacherOption] = useState<Array<Option>>([])
 
     const [isTeacherAdd, setIsTeacherAdd] = useState<boolean>(false)
-    const openTeacherAdd = ()=>setIsTeacherAdd(true);
     // const closeTeacherAdd= ()=>setIsTeacherAdd(false);
 
+    const open1 = ()=>console.log('abriendo detalle');
+    const open2 = ()=>console.log('abriendo editar');
+    const open3 = ()=>console.log('abriendo curso');
+    const open4 = ()=>console.log('abriendo deshabukutar');
 
 
     useEffect(() => {
@@ -69,32 +74,32 @@ export const useTable = () => {
       setTeacherOption([
         {
             name: 'Detalle',
-            funcion: openTeacherAdd
+            funcion: open1
 
         },
         {
             name: 'Editar',
-            funcion: openTeacherAdd
+            funcion: open2
 
         },
         {
             name: 'Asignar curso',
-            funcion: openTeacherAdd
+            funcion: open3
 
         },
         {
             name: 'Deshabilitar',
-            funcion: openTeacherAdd
+            funcion: open4
 
         },
       ])
-      
+
     }, [])
     
     return{
         header,
         teachers,
         teacherOption,
-        isTeacherAdd
+        isTeacherAdd,
     }
 }
