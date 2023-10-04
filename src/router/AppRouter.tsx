@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/modules/auth/hooks/useAuth";
 import { LoginPage } from "@/modules/auth/pages/Login/LoginPage"
 import { IntranetRoutes } from "@/modules/intranet/routes/IntranetRoutes"
 import { Routes,Route, Navigate } from "react-router-dom"

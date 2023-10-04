@@ -1,13 +1,10 @@
-import { useTable } from "./useTable";
 import "./Table.scss";
 import { OptionIcon } from "@/assets/icon/OptionIcon";
 import { useState } from "react";
+import { useTable } from "./useTable";
 
-interface props{
-  openTeacherAdd:()=>void
-}
 
-export const Table = ({openTeacherAdd}:props) => {
+export const Table = () => {
   const { header, teachers, teacherOption} = useTable();
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -37,7 +34,7 @@ export const Table = ({openTeacherAdd}:props) => {
                 }`}
               >
                 {teacherOption.map((item, index) => (
-                  <li key={index} className="menu-option__item" onClick={openTeacherAdd}>
+                  <li key={index} className="menu-option__item" onClick={item.funcion}>
                     {item.name} 
                   </li>
                 ))}

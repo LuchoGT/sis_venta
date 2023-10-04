@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { HeaderIntranet } from "../components/organisms/HeaderIntranet/HeaderIntranet";
-import { NavbarIntranet } from "../components/organisms/NavbarIntranet/NavbarIntranet";
 import "./IntranetTemplate.scss";
+import { NavbarIntranet } from "../sections/NavbarIntranet/NavbarIntranet";
+import { HeaderIntranet } from "../sections/HeaderIntranet/HeaderIntranet";
 
 export const IntranetTemplate = () => {
   return (

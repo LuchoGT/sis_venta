@@ -12,23 +12,39 @@ interface Option{
     funcion: ()=>void;
 }
 
+interface Courses{
+    curso:string,
+    estado:string,
+}
+
+interface OptionCourse{
+    name: string;
+}
+
+
 
 export const useTable = () => {
   
     const [header, setHeader] = useState<Array<HeaderTable>>([])
 
     const [teachers, setTeachers] = useState<Array<Teacher>>([])
-
-
     const [teacherOption, setTeacherOption] = useState<Array<Option>>([])
 
-    const [isTeacherAdd, setIsTeacherAdd] = useState<boolean>(false)
-    // const closeTeacherAdd= ()=>setIsTeacherAdd(false);
 
     const open1 = ()=>console.log('abriendo detalle');
     const open2 = ()=>console.log('abriendo editar');
     const open3 = ()=>console.log('abriendo curso');
     const open4 = ()=>console.log('abriendo deshabukutar');
+
+    /*CONFIG -- CURSOS */
+
+    const [headerCourse, setHeaderCourse] = useState<Array<HeaderTable>>([])
+
+    const [courses, setCourses] = useState<Array<Courses>>([])
+
+    const [courseOption, setCourseOption] = useState<Array<OptionCourse>>([])
+
+
 
 
     useEffect(() => {
@@ -94,12 +110,51 @@ export const useTable = () => {
         },
       ])
 
+      setHeaderCourse([
+        {
+            text: 'No'
+        },
+        {
+            text: 'Curso'
+        },
+        {
+            text: 'Habilitar'
+        },
+        {
+            text: 'Acciones'
+        },
+      ])
+
+      setCourses([
+        {
+            curso: 'Matematicas',
+            estado: 'Habilitado'
+        },
+        {
+            curso: 'Fisica',
+            estado: 'Habilitado'
+        },
+        {
+            curso: 'Lengua',
+            estado: 'Habilitado'
+        },
+      ])
+
+      setCourseOption([
+        {
+            name:'Deshabilitar'
+        }
+      ])
+    
+
     }, [])
     
     return{
         header,
         teachers,
         teacherOption,
-        isTeacherAdd,
+        headerCourse,
+        courses,
+        courseOption,
     }
 }

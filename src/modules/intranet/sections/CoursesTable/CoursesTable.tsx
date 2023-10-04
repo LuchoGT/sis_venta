@@ -1,8 +1,11 @@
 import { OptionIcon } from "@/assets/icon/OptionIcon";
 import { useCourseTable } from "./useCourseTable";
+import { useState } from "react";
 
 export const CoursesTable = () => {
-  const { header, courses } = useCourseTable();
+  const { header, courses,courseOption } = useCourseTable();
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
   return (
     <div>
       <div className="table">
@@ -18,25 +21,24 @@ export const CoursesTable = () => {
               <div>{item.curso}</div>
               <div>{item.estado}</div>
               <div
-                // onClick={() => setIsMenuOpen(!isMenuOpen)}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="table__item--rel"
               >
                 <OptionIcon />
-                {/* <ul
+                <ul
                   className={`${
                     isMenuOpen ? "menu-option" : "menu-option--hidden"
                   }`}
                 >
-                  {teacherOption.map((item, index) => (
+                  {courseOption.map((item, index) => (
                     <li
                       key={index}
                       className="menu-option__item"
-                      onClick={item.funcion}
                     >
                       {item.name}
                     </li>
                   ))}
-                </ul> */}
+                </ul>
               </div>
             </div>
           ))}

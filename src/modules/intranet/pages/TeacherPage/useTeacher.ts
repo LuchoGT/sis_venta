@@ -1,14 +1,19 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export const useTeacher = () => {
   
-    const [isTeacherAdd, setIsTeacherAdd] = useState<boolean>(false)
-    const openTeacherAdd = ()=>setIsTeacherAdd(true);
-    const closeTeacherAdd= ()=>setIsTeacherAdd(false);
+    const [isView, setIsView] = useState<boolean>(false);
+
+    const openView = ()=>setIsView(true);
+    const closeView = ()=>setIsView(false);
+    useEffect(() => {
+     
+    }, [])
+    
 
     return{
-        isTeacherAdd,
-        openTeacherAdd,
-        closeTeacherAdd
+        isView,
+        openView,
+        closeView,
     }
 }

@@ -1,6 +1,6 @@
 import { UserIcon } from "@/assets/icon/UserIcon"
 import './HeaderIntranet.scss';
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/modules/auth/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 

@@ -1,0 +1,12 @@
+@import '../../../../theme//variables/colors';
+
+
+.button-add{
+    background: $button-add;
+    display: flex;
+    width: 10rem;
+    justify-content: center;
+    align-items: center;
+    color: $white;
+    border-radius: .3rem;
+}

@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form';
-import { useProbando } from '../../molecules/TeacherAddContent/useProbando';
 import './TeacherAdd.scss';
+import { useProbando } from '../../components/TeacherAddContent/useProbando';
 
 interface props{
-  isTeacherAdd:boolean,
-  closeTeacherAdd:()=> void,
+  isView:boolean,
+  title:string,
+  closeView:()=>void
 }
-export const TeacherAdd = ({isTeacherAdd,closeTeacherAdd}:props) => {
+export const TeacherAdd = ({isView,title,closeView}:props) => {
 
   const {content} = useProbando();
 
@@ -14,15 +15,21 @@ export const TeacherAdd = ({isTeacherAdd,closeTeacherAdd}:props) => {
     register,
     handleSubmit,
     formState: { errors },
+    // reset,
   } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
   };
 
+  const onCancel=()=>{
+    // reset();
+    closeView()
+  }
+
   return (
-    <div className={`${isTeacherAdd ? "teacher-add" : 'hidden'}`}>
-      <h1>Agregar docente</h1>
+    <div className={`${isView ? "teacher-add" : 'hidden'}`}>
+      <h1>{title} docente</h1>
       <form className='teacher-add__form' onSubmit={handleSubmit(onSubmit)}>
         {
           content.map((item,index)=>(
@@ -32,16 +39,21 @@ export const TeacherAdd = ({isTeacherAdd,closeTeacherAdd}:props) => {
               className='teacher-add__input'
               placeholder={item.placeholder}
               type="text"
+              required
               {
                 ...register(`${item.label}`,{
                   required:{
                     value:true,
                     message: `${item.label} es requerido.`
                   },
+                  minLength:{
+                    value: item.minLength,
+                    message: `${item.label} minimo de ${item.minLength} caracteres`
+                  }
                 })
               }
               />
-            {errors[item.label] && <span>{errors[item.label].message}</span>}
+            {/* {errors[item.label] && <span>{errors[item.label].message}</span>} */}
           </div>
           ))
         }
@@ -90,9 +102,7 @@ export const TeacherAdd = ({isTeacherAdd,closeTeacherAdd}:props) => {
             type="text" />
         </div> */}
         <div className='teacher-add__buttons'>
-          <button onClick={closeTeacherAdd} className='teacher-add__button teacher-add__button--efect'>
-            Cancelar
-          </button>
+          <button onClick={onCancel} className='teacher-add__button teacher-add__button--efect'>Cancelar</button>
           <button type='submit' className='teacher-add__button'>Agregar</button>
         </div>
       </form>

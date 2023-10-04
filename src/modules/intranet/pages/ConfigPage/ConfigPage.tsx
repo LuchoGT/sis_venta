@@ -1,5 +1,5 @@
-import { CoursesList } from '../../components/organisms/CoursesList/CoursesList'
-import { SectionsList } from '../../components/organisms/SectionsList/SectionsList'
+import { CoursesList } from '../../sections/CoursesList/CoursesList';
+import { SectionsList } from '../../sections/SectionsList/SectionsList';
 import './ConfigPage.scss'
 import { useConfig } from './useConfig'
 export const ConfigPage = () => {

@@ -6,11 +6,18 @@ interface Courses{
     estado:string,
 }
 
+interface Option{
+    name: string;
+}
+
+
 export const useCourseTable = () => {
 
     const [header, setHeader] = useState<Array<HeaderTable>>([]);
 
     const [courses, setCourses] = useState<Array<Courses>>([])
+
+    const [courseOption, setCourseOption] = useState<Array<Option>>([])
 
 
     useEffect(() => {
@@ -43,11 +50,18 @@ export const useCourseTable = () => {
                 estado: 'Habilitado'
             },
           ])
+
+          setCourseOption([
+            {
+                name:'Deshabilitar'
+            }
+          ])
     }, [])
     
 
     return{
         header,
         courses,
+        courseOption
     }
 }

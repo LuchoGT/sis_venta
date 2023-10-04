@@ -1,0 +1,14 @@
+.teacher-list{
+    padding: 30px 20px;
+
+    &__title{
+        font-weight: 600;
+        font-size: 2rem;
+    }
+
+    &__buttons{
+        display: flex;
+        justify-content: space-between;
+        margin: 1.2rem 0;
+    }
+}

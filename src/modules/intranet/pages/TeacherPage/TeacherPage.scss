@@ -2,36 +2,6 @@
 
 .teacher{
     background: $white;
-    padding: 30px 20px;
     margin: 30px 20px;
     position: relative;
-    &__title{   
-        font-weight: 600;
-        font-size: 2rem;
-    }
-    &__sub{
-        display: flex;
-        justify-content: space-between;
-        margin: 1.2rem 0;
-    }
-    &__search{
-        display: flex;
-        align-items: center;
-        border: 2px solid black;
-        border-radius: .3rem;
-    }
-    &__input{
-        outline: none;
-        border: none;
-        padding: .5rem;
-    }
-    &__add{
-        background: $button-add;
-        display: flex;
-        width: 10rem;
-        justify-content: center;
-        align-items: center;
-        color: $white;
-        border-radius: .3rem;
-    }
 }
