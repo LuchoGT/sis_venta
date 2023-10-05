@@ -4,17 +4,17 @@ import './ConfigPage.scss'
 import { useConfig } from './useConfig'
 export const ConfigPage = () => {
 
-  const {openCourse,closeCourse,isCourseOpen} = useConfig();
+  const {isPopUpOpen,openPopUp,closePopUp} = useConfig();
 
   return (
     <div className='config'>
       <ul className='config__links'>
-        <li className='config__element' onClick={openCourse}>Cursos</li>
-        <li className='config__element' onClick={closeCourse}>Salones</li>
+        <li className='config__element' onClick={openPopUp}>Cursos</li>
+        <li className='config__element' onClick={closePopUp}>Salones</li>
       </ul>
       <span className='config__indicator'></span>
-      <CoursesList isCourseOpen={isCourseOpen} />
-      <SectionsList isCourseOpen={isCourseOpen} />
+      <CoursesList isPopUpOpen={isPopUpOpen} />
+      {/* <SectionsList  /> */}
     </div>
   )
 }

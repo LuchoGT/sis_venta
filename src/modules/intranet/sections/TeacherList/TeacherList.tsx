@@ -14,7 +14,9 @@ export const TeacherList = ({openView}:props) => {
       <h1 className="teacher-list__title">Docentes</h1>
       <div className="teacher-list__buttons">
         <ButtonSearch />
-        <ButtonAdd openView={openView}/>
+        <ButtonAdd 
+          openView={openView}
+          title='Agregar docente'/>
       </div>
       <Table/>
     </div>

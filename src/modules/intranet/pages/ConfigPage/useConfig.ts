@@ -2,13 +2,13 @@ import { useState } from "react"
 
 export const useConfig = () => {
 
-    const [isCourseOpen, setIsCourseOpen] = useState<boolean>(true);
+    const [isPopUpOpen, setIsPopUpOpen] = useState<boolean>(true);
 
-    const closeCourse=()=>setIsCourseOpen(false);
-    const openCourse=()=>setIsCourseOpen(true);
+    const closePopUp=()=>setIsPopUpOpen(false);
+    const openPopUp=()=>setIsPopUpOpen(true);
   return {
-    isCourseOpen,
-    closeCourse,
-    openCourse
+    isPopUpOpen,
+    openPopUp,
+    closePopUp,
   }
 }

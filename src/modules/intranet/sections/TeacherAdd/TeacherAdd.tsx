@@ -39,19 +39,19 @@ export const TeacherAdd = ({isView,title,closeView}:props) => {
               className='teacher-add__input'
               placeholder={item.placeholder}
               type="text"
-              required
-              {
-                ...register(`${item.label}`,{
-                  required:{
-                    value:true,
-                    message: `${item.label} es requerido.`
-                  },
-                  minLength:{
-                    value: item.minLength,
-                    message: `${item.label} minimo de ${item.minLength} caracteres`
-                  }
-                })
-              }
+              // required
+              // {
+              //   ...register(`${item.label}`,{
+              //     required:{
+              //       value:true,
+              //       message: `${item.label} es requerido.`
+              //     },
+              //     // minLength:{
+              //     //   value: item.minLength,
+              //     //   message: `${item.label} minimo de ${item.minLength} caracteres`
+              //     // }
+              //   })
+              // }
               />
             {/* {errors[item.label] && <span>{errors[item.label].message}</span>} */}
           </div>

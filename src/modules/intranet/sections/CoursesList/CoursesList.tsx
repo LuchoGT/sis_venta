@@ -1,12 +1,12 @@
 import './CoursesList.scss'
 import { useState } from "react";
-import { CoursesAdd } from '../CoursesAdd/CoursesAdd';
 import { Table } from '../../components/Table/Table';
+import { PopupAdd } from '../PopupAdd/PopupAdd';
 
 interface props{
-  isCourseOpen:boolean
+  isPopUpOpen:boolean
 }
-export const CoursesList = ({isCourseOpen}:props) => {
+export const CoursesList = ({isPopUpOpen}:props) => {
 
   const [isCourseAdd, setIsCourseAdd] = useState<boolean>(false);
 
@@ -14,12 +14,12 @@ export const CoursesList = ({isCourseOpen}:props) => {
   const closeCourse = ()=>setIsCourseAdd(false);
   
   return (
-    <div className={`${isCourseOpen ?  'courses': 'hidden'}`}>
+    <div className={`${isPopUpOpen ?  'courses': 'hidden'}`}>
         <div className='courses__add'>
             <div onClick={openCourse} >Agregar</div>
         </div>
         <Table/>
-        <CoursesAdd isCourseAdd={isCourseAdd}/>
+        <PopupAdd isCourseAdd={isCourseAdd}/>
     </div>
   )
 }
