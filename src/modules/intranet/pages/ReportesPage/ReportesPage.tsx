@@ -1,7 +1,13 @@
-import React from 'react'
+import { SwitchComponente } from './SwitchComponente'
 
 export const ReportesPage = () => {
   return (
-    <div>ReportesPage</div>
+    <div>
+      <h1>ReportesPage</h1>
+      <SwitchComponente value="option1"/>
+      <SwitchComponente value="option2"/>
+      <SwitchComponente value="option3"/>
+      <SwitchComponente value="optionInvalida"/>
+    </div>
   )
 }

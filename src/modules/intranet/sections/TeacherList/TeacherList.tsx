@@ -5,20 +5,26 @@ import './TeacherList.scss';
 
 
 interface props{
-  openView:()=>void
+  openViewAdd:()=>void,
+  openDetail:()=>void,
+  openEdit:()=>void,
 }
 
-export const TeacherList = ({openView}:props) => {
+export const TeacherList = ({openViewAdd,openEdit,openDetail}:props) => {
   return (
     <div className="teacher-list">
       <h1 className="teacher-list__title">Docentes</h1>
       <div className="teacher-list__buttons">
         <ButtonSearch />
         <ButtonAdd 
-          openView={openView}
+          openView={openViewAdd}
           title='Agregar docente'/>
       </div>
-      <Table/>
+      <Table 
+        openView={openViewAdd}
+        openEdit={openEdit}
+        openDetail={openDetail}
+      />
     </div>
   );
 };

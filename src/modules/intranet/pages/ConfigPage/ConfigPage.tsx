@@ -14,7 +14,7 @@ export const ConfigPage = () => {
       </ul>
       <span className='config__indicator'></span>
       <CoursesList isPopUpOpen={isPopUpOpen} />
-      {/* <SectionsList  /> */}
+      <SectionsList isPopUpOpen={isPopUpOpen}/>
     </div>
   )
 }

@@ -4,10 +4,18 @@ import { useState } from "react";
 import { useTable } from "./useTable";
 
 
-export const Table = () => {
+interface props{
+  openView:()=>void,
+  openDetail:()=>void,
+  openEdit:()=>void,
+}
+
+export const Table = ({openView,openDetail,openEdit}:props) => {
   const { header, teachers, teacherOption} = useTable();
 
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const funciones=[openDetail,openEdit];
 
   return (
     <div className="table">
@@ -34,7 +42,9 @@ export const Table = () => {
                 }`}
               >
                 {teacherOption.map((item, index) => (
-                  <li key={index} className="menu-option__item" onClick={item.funcion}>
+                  <li key={index} className="menu-option__item" onClick={()=>{
+                    funciones.map(func=>func())
+                  }}>
                     {item.name} 
                   </li>
                 ))}

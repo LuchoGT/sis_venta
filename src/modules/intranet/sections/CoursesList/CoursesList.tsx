@@ -19,7 +19,10 @@ export const CoursesList = ({isPopUpOpen}:props) => {
             <div onClick={openCourse} >Agregar</div>
         </div>
         <Table/>
-        <PopupAdd isCourseAdd={isCourseAdd}/>
+        <PopupAdd 
+          isCourseAdd={isCourseAdd}
+          closeCourse={closeCourse}
+          title="Agregar curso"/>
     </div>
   )
 }

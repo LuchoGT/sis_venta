@@ -30,11 +30,30 @@ export const useTable = () => {
     const [teachers, setTeachers] = useState<Array<Teacher>>([])
     const [teacherOption, setTeacherOption] = useState<Array<Option>>([])
 
+    const [abrirPopUp, setAbrirPopUp] = useState<boolean>(false);
+
+    const Open=()=>setAbrirPopUp(true);
+
+    const Close=()=>setAbrirPopUp(false);
+
 
     const open1 = ()=>console.log('abriendo detalle');
     const open2 = ()=>console.log('abriendo editar');
     const open3 = ()=>console.log('abriendo curso');
     const open4 = ()=>console.log('abriendo deshabukutar');
+
+    /**PRUEBAS */
+
+    const [isViewEdit, setIsViewEdit] = useState<boolean>(false);
+
+  const openEdit=()=>setIsViewEdit(true);
+  const closeEdit=()=>setIsViewEdit(false);
+
+
+  const [isViewDetail, setIsViewDetail] = useState<boolean>(false);
+
+  const openDetail=()=>setIsViewDetail(true);
+  const closeDetail=()=>setIsViewDetail(false);
 
     /*CONFIG -- CURSOS */
 
@@ -90,12 +109,12 @@ export const useTable = () => {
       setTeacherOption([
         {
             name: 'Detalle',
-            funcion: open1
+            funcion: openDetail
 
         },
         {
             name: 'Editar',
-            funcion: open2
+            funcion: openEdit
 
         },
         {

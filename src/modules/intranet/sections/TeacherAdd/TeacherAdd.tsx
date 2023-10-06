@@ -1,111 +1,37 @@
-import { useForm } from 'react-hook-form';
+import { TeacherAddContent } from '../../components/TeacherAddContent/TeacherAddContent';
+import { TeacherDetail } from '../../components/TeacherAddContent/TeacherDetail';
+import { TeacherEditContent } from '../../components/TeacherAddContent/TeacherEditContent';
 import './TeacherAdd.scss';
-import { useProbando } from '../../components/TeacherAddContent/useProbando';
 
 interface props{
   isView:boolean,
-  title:string,
-  closeView:()=>void
+  value:string,
+  closeViewAdd:()=>void,
+  isViewEdit:boolean,
+  closeEdit:()=>void,
+  isViewDetail:boolean,
+  closeDetail:()=>void
 }
-export const TeacherAdd = ({isView,title,closeView}:props) => {
+export const TeacherAdd = ({isView,value,closeViewAdd,isViewEdit,isViewDetail,closeEdit,closeDetail}:props) => {
 
-  const {content} = useProbando();
+  let pruebas;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    // reset,
-  } = useForm();
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  const onCancel=()=>{
-    // reset();
-    closeView()
+  switch (value) {
+    case 'Agregar':
+      pruebas = <TeacherAddContent isView={isView} closeView={closeViewAdd}/>;
+      break;
+    case 'Editar':
+      pruebas = <TeacherEditContent isViewEdit={isViewEdit} closeEdit={closeEdit}/>;
+      break;
+    case 'Detalle':
+      pruebas = <TeacherDetail isViewDetail={isViewDetail} closeDetail={closeDetail}/>;
+      break;
+    default:
+      pruebas = <div>Valor no válido</div>;
   }
 
+
   return (
-    <div className={`${isView ? "teacher-add" : 'hidden'}`}>
-      <h1>{title} docente</h1>
-      <form className='teacher-add__form' onSubmit={handleSubmit(onSubmit)}>
-        {
-          content.map((item,index)=>(
-          <div className={item.style} key={index}>
-            <label className='teacher-add__name'>{item.label}</label>
-            <input
-              className='teacher-add__input'
-              placeholder={item.placeholder}
-              type="text"
-              // required
-              // {
-              //   ...register(`${item.label}`,{
-              //     required:{
-              //       value:true,
-              //       message: `${item.label} es requerido.`
-              //     },
-              //     // minLength:{
-              //     //   value: item.minLength,
-              //     //   message: `${item.label} minimo de ${item.minLength} caracteres`
-              //     // }
-              //   })
-              // }
-              />
-            {/* {errors[item.label] && <span>{errors[item.label].message}</span>} */}
-          </div>
-          ))
-        }
-        {/* <div className='teacher-add__content'>
-          <label className='teacher-add__name'>Nombre</label>
-          <input
-            className='teacher-add__input'
-            placeholder='Escribir nombre'
-            type="text" />
-        </div>
-        <div className='teacher-add__content'>
-          <label className='teacher-add__name'>Apellidos</label>
-          <input
-            className='teacher-add__input' 
-            type="text" />
-        </div>
-        <div className='teacher-add__content teacher-add__content--min'>
-          <label className='teacher-add__name'>DNI</label>
-          <input
-            className='teacher-add__input' 
-            type="text" />
-        </div>
-        <div className='teacher-add__content teacher-add__content--min'>
-          <label className='teacher-add__name'>Celular</label>
-          <input
-            className='teacher-add__input' 
-            type="text" />
-        </div>
-        <div className='teacher-add__content'>
-          <label className='teacher-add__name'>Correo</label>
-          <input
-            className='teacher-add__input' 
-            type="text" />
-        </div>
-        <div className='teacher-add__separate'></div>
-        <div className='teacher-add__content'>
-          <label className='teacher-add__name'>Usuario</label>
-          <input
-            className='teacher-add__input' 
-            type="text" />
-        </div>
-        <div className='teacher-add__content'>
-          <label className='teacher-add__name'>Contraseña</label>
-          <input
-            className='teacher-add__input' 
-            type="text" />
-        </div> */}
-        <div className='teacher-add__buttons'>
-          <button onClick={onCancel} className='teacher-add__button teacher-add__button--efect'>Cancelar</button>
-          <button type='submit' className='teacher-add__button'>Agregar</button>
-        </div>
-      </form>
-    </div>
+    <div>{pruebas}</div>
   )
 }

@@ -4,8 +4,8 @@ export const useTeacher = () => {
   
     const [isView, setIsView] = useState<boolean>(false);
 
-    const openView = ()=>setIsView(true);
-    const closeView = ()=>setIsView(false);
+    const openViewAdd = ()=>setIsView(true);
+    const closeViewAdd = ()=>setIsView(false);
     useEffect(() => {
      
     }, [])
@@ -13,7 +13,7 @@ export const useTeacher = () => {
 
     return{
         isView,
-        openView,
-        closeView,
+        openViewAdd,
+        closeViewAdd,
     }
 }

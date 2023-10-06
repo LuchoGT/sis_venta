@@ -2,13 +2,15 @@ import "./PopupAdd.scss";
 
 interface props {
   isCourseAdd: boolean;
+  closeCourse:()=>void;
+  title: string
 }
-export const PopupAdd = ({ isCourseAdd }: props) => {
+export const PopupAdd = ({ isCourseAdd,closeCourse,title }: props) => {
   return (
     <div className={`${isCourseAdd ? "popUp-add" : "hidden"}`}>
       <div className="popUp-add__container">
         <div className="popUp-add__head">
-          <p className="popUp-add__title">Agregar Curso</p>
+          <p className="popUp-add__title">{title}</p>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-x"
@@ -35,6 +37,7 @@ export const PopupAdd = ({ isCourseAdd }: props) => {
           <div className="popUp-add__buttons">
             <button
               className="popUp-add__button popUp-add__button--cancel"
+              onClick={closeCourse}
             >
               Cancelar
             </button>
