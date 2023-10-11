@@ -9,7 +9,7 @@ interface Teacher {
   
 interface Option{
     name: string;
-    funcion: ()=>void;
+    // fn:Function
 }
 
 interface Courses{
@@ -24,36 +24,21 @@ interface OptionCourse{
 
 
 export const useTable = () => {
+
+
   
     const [header, setHeader] = useState<Array<HeaderTable>>([])
 
     const [teachers, setTeachers] = useState<Array<Teacher>>([])
     const [teacherOption, setTeacherOption] = useState<Array<Option>>([])
-
-    const [abrirPopUp, setAbrirPopUp] = useState<boolean>(false);
-
-    const Open=()=>setAbrirPopUp(true);
-
-    const Close=()=>setAbrirPopUp(false);
+ 
 
 
-    const open1 = ()=>console.log('abriendo detalle');
+    // const open1 = ()=>console.log('abriendo detalle');
     const open2 = ()=>console.log('abriendo editar');
     const open3 = ()=>console.log('abriendo curso');
     const open4 = ()=>console.log('abriendo deshabukutar');
 
-    /**PRUEBAS */
-
-    const [isViewEdit, setIsViewEdit] = useState<boolean>(false);
-
-  const openEdit=()=>setIsViewEdit(true);
-  const closeEdit=()=>setIsViewEdit(false);
-
-
-  const [isViewDetail, setIsViewDetail] = useState<boolean>(false);
-
-  const openDetail=()=>setIsViewDetail(true);
-  const closeDetail=()=>setIsViewDetail(false);
 
     /*CONFIG -- CURSOS */
 
@@ -64,7 +49,40 @@ export const useTable = () => {
     const [courseOption, setCourseOption] = useState<Array<OptionCourse>>([])
 
 
+    const options = [
+        { title: 'Detalle', ct: 'Contenido de la Opción 1', sub: 'Detalle docente'},
+        { title: 'Editar', ct: 'Contenido de la Opción 2', sub: 'Editar docente' },
+        { title: 'Asignar curso', ct: 'Contenido de la Opción 3', sub: 'Asignar curso' },
+        { title: 'Deshabilitar', ct: 'Contenido de la Opción 3' },
+    ];
+    
 
+      const [showCard, setShowCard] = useState<boolean[]>([false, false, false]);
+
+      const openCard = (index: number) => {
+        const updatedShowCard = [...showCard];
+        updatedShowCard[index] = true;
+        setShowCard(updatedShowCard);
+
+        if (index===0) {
+            console.log('detalle');
+        }
+        else if(index===1){
+            console.log('editar cod');
+        }else if(index===2){
+            console.log('asignar curso');
+        }else{
+            console.log('deshanbilitar');
+            
+        }
+      };
+    
+      const closeCard = (index: number) => {
+        const updatedShowCard = [...showCard];
+        updatedShowCard[index] = false;
+        setShowCard(updatedShowCard);
+      };
+    
 
     useEffect(() => {
       setHeader([
@@ -88,8 +106,8 @@ export const useTable = () => {
       setTeachers([
         {
            
-            nombre: 'Luchito',
-            apellido: 'Gonzales',
+            nombre: 'Nombre',
+            apellido: 'Apellido',
             estado: 'Habilitado'
         },
         // {
@@ -109,22 +127,22 @@ export const useTable = () => {
       setTeacherOption([
         {
             name: 'Detalle',
-            funcion: openDetail
+            // fn: open1
 
         },
         {
             name: 'Editar',
-            funcion: openEdit
+            // fn: open2
 
         },
         {
             name: 'Asignar curso',
-            funcion: open3
+            // fn: open3
 
         },
         {
             name: 'Deshabilitar',
-            funcion: open4
+            // fn: open4
 
         },
       ])
@@ -175,5 +193,9 @@ export const useTable = () => {
         headerCourse,
         courses,
         courseOption,
+        options,
+        openCard,
+        closeCard,
+        showCard
     }
 }

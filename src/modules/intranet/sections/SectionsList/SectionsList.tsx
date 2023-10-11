@@ -1,25 +1,21 @@
-import { useState } from "react";
 import { PopupAdd } from "../PopupAdd/PopupAdd";
-
+import './SectionList.scss'
+import { usePopup } from "../PopupAdd/usePopup";
 interface props{
-  isPopUpOpen:boolean
+  isOpenList:boolean
 }
-export const SectionsList = ({isPopUpOpen}:props) => {
+export const SectionsList = ({isOpenList}:props) => {
 
-  const [isCourseAdd, setIsCourseAdd] = useState<boolean>(false);
-
-  const openCourse = ()=>setIsCourseAdd(true);
-  const closeCourse = ()=>setIsCourseAdd(false);
-  
+  const {isOpenPopUp,openPopUp,closePopUp} = usePopup()
   return (
-    <div className={`${isPopUpOpen ? 'hidden' : ''}`}>
+    <div className={`${isOpenList ? 'hidden-sections' : ''}`}>
       <h1>Secciones</h1>
-      <div onClick={openCourse}>
+      <div onClick={openPopUp}>
         Agregar
       </div>
       <PopupAdd 
-        isCourseAdd={isCourseAdd}
-        closeCourse={closeCourse}
+        isOpenPopUp={isOpenPopUp}
+        closePopUp={closePopUp}
         title="Agregar salon"/>
     </div>
   )

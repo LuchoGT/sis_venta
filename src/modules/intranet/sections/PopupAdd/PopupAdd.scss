@@ -11,6 +11,7 @@
     right: 0;
     left: 0;
     bottom: 0;
+   
     &__container{
         width: 450px;
         background: $white;
@@ -32,12 +33,20 @@
     }
 
     &__form{
+        // padding: 0.5rem 1rem;
+        // display: flex;
+        // flex-wrap: wrap;
+        // flex-direction: column;
+        // margin-top: 1rem;
+        // color: black;
+    }
+    &__content{
         padding: 0.5rem 1rem;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        margin-top: 1rem;
-        color: black;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin-top: 1rem;
+    color: black;
     }
     &__input{
         padding: .5rem;
@@ -67,6 +76,6 @@
     }
 }
 
-.hidden{
+.hidden-popup{
     display: none;
 }
