@@ -1,55 +1,109 @@
-import { useTable } from "../../components/Table/useTable";
-import { Probando } from "../../components/TeacherAddContent/Probando";
+import { useState } from "react";
 import { Form } from "../../sections/Form/Form";
+import { PopUp } from "../../sections/PopupAdd/PopUp";
 import { TeacherList } from "../../sections/TeacherList/TeacherList";
 import "./TeacherPage.scss";
 import { useTeacher } from "./useTeacher";
+import { useEffect } from "react";
+import { FormPruebas } from "@/interfaces/interfaces";
 
 export const TeacherPage = () => {
-  const { openViewAdd, isView, closeViewAdd } = useTeacher();
+  const {
+    abierto,
+    toggleAbierto,
+    isViewDocente,
+    toggleViewDocente,
+    isViewAsignarCurso,
+    toggleViewAsignarCurso,
+    title,
+    editarTituloFormDocente,
+    openView,
+    toggleOpen
+  } = useTeacher();
 
-  const { options, openCard, closeCard,showCard } = useTable();
+  const [data, setData] = useState<FormPruebas[]>(()=>{
+    const savedData = localStorage.getItem('teacherList');
+    return savedData ? JSON.parse(savedData) : [];
+  });
 
-  // const [isViewEdit, setIsViewEdit] = useState<boolean>(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  // const openEdit=()=>setIsViewEdit(true);
-  // const closeEdit=()=>setIsViewEdit(false);
+  const op = (formData: FormPruebas) => {
+    // setData([...data, formData]);
+    // const newData = [...data, formData];
+    // setData(newData);
+    // localStorage.setItem('teacherList', JSON.stringify(newData));
+    // toggleOpen()
 
-  // const [isViewDetail, setIsViewDetail] = useState<boolean>(false);
+   
+    if (editingIndex !== null) {
+      // Si estamos editando, reemplazar el elemento existente
+      const newData = [...data];
+      newData[editingIndex] = formData;
+      setData(newData);
+      setEditingIndex(null);
+      // Actualizar en localStorage
+      localStorage.setItem('teacherList', JSON.stringify(newData));
+    } else {
+      // Si no estamos editando, agregar un nuevo elemento
+      setData([...data, formData]);
 
-  // const openDetail=()=>setIsViewDetail(true);
-  // const closeDetail=()=>setIsViewDetail(false);
+      // Guardar en localStorage
+      localStorage.setItem('teacherList', JSON.stringify([...data, formData]));
+    }
+    toggleOpen()
+  };
+
+
+  const editItem = (index: number) => {
+    toggleOpen()
+    setEditingIndex(index);
+  };
+
+  useEffect(() => {
+    const savedData = localStorage.getItem('teacherList');
+    if (savedData) {
+      setData(JSON.parse(savedData));
+    }
+  }, []);
+
   return (
     <>
       <div className="teacher">
-        <TeacherList openViewAdd={openViewAdd} />
-        {/* {options.map((option, index) => (
-          <div key={index} className="queseso">
-            {showCard[index] && (
-              <Probando
-                title={option.title}
-                ct={option.ct}
-                onClose={() => closeCard(index)}
-              />
-            )}
-          </div>
-        ))} */}
-        <Form isView={isView} closeViewAdd={closeViewAdd} />
-        {/* <TeacherAdd
-          isView={isView}
-          closeViewAdd={closeViewAdd}
-          value="Agregar"
+        {!openView ?(
+          <TeacherList
+            toggleOpen={toggleOpen}
+            toggleViewAsignarCurso={toggleViewAsignarCurso}
+            // editarTituloFormDocente={editarTituloFormDocente}
+            data={data}
+            editItem={editItem}
           />
-        <TeacherAdd
-          isViewEdit={isViewEdit}
-          closeEdit={closeEdit}
-          value="Editar"
+        ):(
+          <Form
+          onSubmit={op}
+          onClose={() => {
+            toggleOpen()
+            setEditingIndex(null);
+          }}
+          editingIndex={editingIndex}
+          data={data}
+          // editarTituloFormDocente={(newTitle)=>editarTituloFormDocente(newTitle)}
           />
-        <TeacherAdd
-          isViewDetail={isViewDetail}
-          closeDetail={closeDetail}
-          value="Detalle"
-          /> */}
+        )
+      
+        }
+        {/* {!abierto && <Form toggleAbierto={toggleAbierto} editarTituloFormDocente={(newTitle)=>editarTituloFormDocente(newTitle)}/>} */}
+        {/* {
+          isViewDocente && 
+          <Form
+          toggleViewDocente={toggleViewDocente}
+            editarTituloFormDocente={(newTitle)=>editarTituloFormDocente(newTitle)}
+          />
+        } */}
+          {/* {
+          isViewAsignarCurso && 
+          <PopUp toggleViewAsignarCurso={toggleViewAsignarCurso} />
+        } */}
       </div>
     </>
   );

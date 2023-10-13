@@ -1,159 +1,101 @@
-import { useState,useEffect } from 'react'
-import { SwitchComponente } from './SwitchComponente'
-import React from 'react';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { Formulario } from './Formulario';
+import {useEffect } from 'react'
+import {useState} from 'react';
 import { Tabla } from './Tabla';
+import { Formulario } from './Formulario';
 
-interface FormData {
-  nombres: string;
-  apellidos: string;
+
+
+interface FormValues {
+  nombre: string;
+  apellido: string;
 }
-
 
 export const ReportesPage = () => {
 
-  const [showCard, setShowCard] = useState<boolean[]>([false, false, false]);
 
-  const openCard = (index: number) => {
-    const updatedShowCard = [...showCard];
-    updatedShowCard[index] = true;
-    setShowCard(updatedShowCard);
+  //prac 2 forma 
+
+
+
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
+  
+  const [data, setData] = useState<FormValues[]>(()=>{
+    const savedData = localStorage.getItem('practicando');
+    return savedData ? JSON.parse(savedData) : [];
+  });
+
+  const op = (formData: FormValues) => {
+    // const newData = [...data, formData];
+    // setData(newData);
+    // localStorage.setItem('practicando', JSON.stringify(newData));
+    // setFormOpen(false);
+
+
+    if (editingIndex !== null) {
+      // Si estamos editando, reemplazar el elemento existente
+      const newData = [...data];
+      newData[editingIndex] = formData;
+      setData(newData);
+      setEditingIndex(null);
+      // Actualizar en localStorage
+      localStorage.setItem('practicando', JSON.stringify(newData));
+    } else {
+      // Si no estamos editando, agregar un nuevo elemento
+      setData([...data, formData]);
+
+      // Guardar en localStorage
+      localStorage.setItem('practicando', JSON.stringify([...data, formData]));
+    }
+
+    // Cerrar el formulario
+    setFormOpen(false);
+
+    
   };
 
-  const closeCard = (index: number) => {
-    const updatedShowCard = [...showCard];
-    updatedShowCard[index] = false;
-    setShowCard(updatedShowCard);
+
+  const editItem = (index: number) => {
+    setFormOpen(true);
+    setEditingIndex(index);
   };
 
-  const options = [
-    { title: 'Opción 1', content: 'Contenido de la Opción 1' },
-    { title: 'Opción 2', content: 'Contenido de la Opción 2' },
-    { title: 'Opción 3', content: 'Contenido de la Opción 3' },
-  ];
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<FormData>();
-  // const [duplicados, setDuplicados] = useState<FormData[]>([]);
-
-  // const onSubmit: SubmitHandler<FormData> = (data) => {
-  //   setDuplicados([...duplicados, data]);
-  //   reset();
-  // };
-
-  // const handleEditar = (index: number) => {
-  //   const duplicado = duplicados[index];
-  //   reset(duplicado);
-  //   setDuplicados(duplicados.filter((_, i) => i !== index));
-  // };
-
-
-  const [dataList, setDataList] = React.useState<FormData[]>([]);
-  const [editIndex, setEditIndex] = React.useState<number | null>(null);
-
-
-  // Cargar datos almacenados en localStorage al montar el componente
+  const viewDetail = (index: number) => {
+    // Implementa la lógica para ver los detalles del elemento
+    // Puedes abrir un modal o una nueva página, por ejemplo
+  };
   useEffect(() => {
-    const storedData = localStorage.getItem('dataList');
-    if (storedData) {
-      setDataList(JSON.parse(storedData));
+    const savedData = localStorage.getItem('practicando');
+    if (savedData) {
+      setData(JSON.parse(savedData));
     }
   }, []);
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    if (editIndex !== null) {
-      const updatedList = [...dataList];
-      updatedList[editIndex] = data;
-      setDataList(updatedList);
-      setEditIndex(null);
-
-      // Guardar datos en localStorage después de editar
-      localStorage.setItem('dataList', JSON.stringify(updatedList));
-    } else {
-      setDataList([...dataList, data]);
-      // Guardar datos en localStorage después de agregar
-      localStorage.setItem('dataList', JSON.stringify([...dataList, data]));
-    }
-    reset();
-    
-    console.log(data);
-    console.log(dataList);
-    
-  };
-
-  const handleEdit = (index: number) => {
-    const editItem = dataList[index];
-    reset(editItem);
-    setEditIndex(index);
-    console.log(editItem);
-  };
-
-  const handleDelete = (index: number) => {
-    const updatedList = dataList.filter((_, i) => i !== index);
-    setDataList(updatedList);
-    setEditIndex(null);
-
-        // Actualizar datos en localStorage después de eliminar un elemento
-        localStorage.setItem('dataList', JSON.stringify(updatedList));
-  };
-  
-
   return (
     <>
-    {/* <div>
-      {options.map((option, index) => (
-        <button key={index} onClick={() => openCard(index)}>
-          {option.title}
-        </button>
-      ))}
-
-      {options.map((option, index) => (
-        <div key={index}>
-          {showCard[index] && (
-            <SwitchComponente
-              title={option.title}
-              content={option.content}
-              onClose={() => closeCard(index)}
-            />
-          )}
-        </div>
-      ))}
-    </div> */}
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-      <input
-          type="text"
-          placeholder="Nombre"
-          {...register('nombres')}
+      <h1>Tabla y Formulario</h1>
+      {formOpen ? (
+        <Formulario
+          onSubmit={op}
+          onClose={() => {
+            setFormOpen(false);
+            setEditingIndex(null);
+          }}
+          editingIndex={editingIndex}
+          data={data}
         />
-        <input
-          type="text"
-          placeholder="Apellido"
-          {...register('apellidos')}
-        />
-         <button type="submit">
-          {editIndex !== null ? 'Editar' : 'Agregar'}
-        </button>
-      </form>
+      ) : (
+        <Tabla 
+          data={data} 
+          openForm={() => setFormOpen(true)} 
+          editItem={editItem} 
+          viewDetail={viewDetail}
+          />
+      )}
+    </div>
 
-      <div>
-        {dataList.map((duplicado, index) => (
-          <div key={index}>
-            <p>Nombre: {duplicado.nombres}</p>
-            <p>Apellido: {duplicado.apellidos}</p>
-            <button onClick={() => handleEdit(index)}>Editar</button>
-            <button onClick={() => handleDelete(index)}>Eliminar</button>
-          </div>
-        ))}
-      </div>
-    </div>
-    <div>
-    </div>
     </>
   );
 }

@@ -4,27 +4,22 @@ import { TeacherEditContent } from '../../components/TeacherAddContent/TeacherEd
 import './TeacherAdd.scss';
 
 interface props{
-  isView:boolean,
-  value:string,
-  closeViewAdd:()=>void,
-  isViewEdit:boolean,
-  closeEdit:()=>void,
-  isViewDetail:boolean,
-  closeDetail:()=>void
+  toggleAbierto:()=>void,
+  value:string
 }
-export const TeacherAdd = ({isView,value,closeViewAdd,isViewEdit,isViewDetail,closeEdit,closeDetail}:props) => {
+export const TeacherAdd = ({toggleAbierto,value}:props) => {
 
   let pruebas;
 
   switch (value) {
     case 'Agregar':
-      pruebas = <TeacherAddContent isView={isView} closeView={closeViewAdd}/>;
+      pruebas = <TeacherAddContent  toggleAbierto={toggleAbierto}/>;
       break;
     case 'Editar':
-      pruebas = <TeacherEditContent isViewEdit={isViewEdit} closeEdit={closeEdit}/>;
+      pruebas = <TeacherEditContent  toggleAbierto={toggleAbierto}/>;
       break;
     case 'Detalle':
-      pruebas = <TeacherDetail isViewDetail={isViewDetail} closeDetail={closeDetail}/>;
+      pruebas = <TeacherDetail toggleAbierto={toggleAbierto}/>;
       break;
     default:
       pruebas = <div>Valor no válido</div>;

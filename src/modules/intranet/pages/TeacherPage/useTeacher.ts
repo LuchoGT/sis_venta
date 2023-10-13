@@ -1,19 +1,48 @@
-import { useEffect, useState } from "react"
+import { useState } from "react";
 
 export const useTeacher = () => {
-  
-    const [isView, setIsView] = useState<boolean>(false);
 
-    const openViewAdd = ()=>setIsView(true);
-    const closeViewAdd = ()=>setIsView(false);
-    useEffect(() => {
-     
-    }, [])
-    
+  //abrir y cerrar la vista agregar docente
+  // const [abierto, setAbierto] = useState(true);
+  const [openView, setOpenView] = useState(false);
 
-    return{
-        isView,
-        openViewAdd,
-        closeViewAdd,
-    }
-}
+  const toggleOpen=()=>{
+    setOpenView(!openView)
+  }
+
+  //abrir y cerrar para editar y detalle
+  const [isViewDocente, setViewDocente] = useState(false);
+  //abrir y cerrar el popup
+  const [isViewAsignarCurso, setViewAsignarCurso] = useState(false);
+  const [title, setTitle] = useState("");
+
+  const toggleAbierto = () => {
+    setAbierto(!abierto);
+  };
+
+  const toggleViewDocente = () => {
+    // toggleAbierto();
+    setViewDocente(!isViewDocente);
+  };
+
+  const toggleViewAsignarCurso = () => {
+    setViewAsignarCurso(!isViewAsignarCurso);
+  };
+
+  const editarTituloFormDocente = (title: string) => {
+    setTitle(title);
+  };
+
+  return {
+    // abierto,
+    // toggleAbierto,
+    isViewDocente,
+    toggleViewDocente,
+    isViewAsignarCurso,
+    toggleViewAsignarCurso,
+    title,
+    editarTituloFormDocente,
+    openView,
+    toggleOpen
+  };
+};

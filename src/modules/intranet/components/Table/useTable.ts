@@ -1,201 +1,114 @@
-import { HeaderTable } from "@/interfaces/interfaces"
-import { useEffect, useState } from "react"
+import { Option } from "@/interfaces/interfaces";
 
-interface Teacher {
-    nombre: string;
-    apellido: string;
-    estado: string;
-  }
+// type Option = {
+//     title: string;
+//     ct: string;
+//     sub?: string;
+// };
+
+interface props {
+  toggleOpen:()=>void,
+  toggleViewAsignarCurso:()=>void,
+  editItem:(index:number)=>void,
+}
+
+export const useTable = ( {toggleOpen,toggleViewAsignarCurso,editItem}: props) => {
+  // const [header, setHeader] = useState<Array<HeaderTable>>([])
+
+  // const [teachers, setTeachers] = useState<Array<Teacher>>([])
+  // const [teacherOption, setTeacherOption] = useState<Array<Option>>([])
+
+  /*CONFIG -- CURSOS */
+
+  // const [headerCourse, setHeaderCourse] = useState<Array<HeaderTable>>([])
+
+  // const [courses, setCourses] = useState<Array<Courses>>([])
+
+  // const [courseOption, setCourseOption] = useState<Array<OptionCourse>>([])
+
+  const headers = [
+    { title: "No" },
+    { title: "Nombre" },
+    { title: "Cursos" },
+    { title: "Habilitar" },
+    { title: "Estado" },
+  ];
+
+  // const [showView, setShowView] = useState<boolean[]>([false, false, false]);
   
-interface Option{
-    name: string;
-    // fn:Function
-}
 
-interface Courses{
-    curso:string,
-    estado:string,
-}
-
-interface OptionCourse{
-    name: string;
-}
+  // editarTituloFormDocente(title2)
 
 
+  const options: Option[] = [
+    {
+      title: "Detalle",
+      ct: "Contenido de la Opción 1",
+      sub: "Detalle docente",
+    },
+    {
+      title: "Editar",
+      ct: "Contenido de la Opción 2",
+      sub: "Editar docente",
+      
+    },
+    {
+      title: "Asignar curso",
+      ct: "Contenido de la Opción 3",
+      sub: "Asignar curso",
+      
+    },
+    {
+      title: "Deshabilitar",
+      ct: "Contenido de la Opción 3",
+    },
+  ];
 
-export const useTable = () => {
+  const openView = (index:number) => {
 
-
-  
-    const [header, setHeader] = useState<Array<HeaderTable>>([])
-
-    const [teachers, setTeachers] = useState<Array<Teacher>>([])
-    const [teacherOption, setTeacherOption] = useState<Array<Option>>([])
- 
-
-
-    // const open1 = ()=>console.log('abriendo detalle');
-    const open2 = ()=>console.log('abriendo editar');
-    const open3 = ()=>console.log('abriendo curso');
-    const open4 = ()=>console.log('abriendo deshabukutar');
-
-
-    /*CONFIG -- CURSOS */
-
-    const [headerCourse, setHeaderCourse] = useState<Array<HeaderTable>>([])
-
-    const [courses, setCourses] = useState<Array<Courses>>([])
-
-    const [courseOption, setCourseOption] = useState<Array<OptionCourse>>([])
-
-
-    const options = [
-        { title: 'Detalle', ct: 'Contenido de la Opción 1', sub: 'Detalle docente'},
-        { title: 'Editar', ct: 'Contenido de la Opción 2', sub: 'Editar docente' },
-        { title: 'Asignar curso', ct: 'Contenido de la Opción 3', sub: 'Asignar curso' },
-        { title: 'Deshabilitar', ct: 'Contenido de la Opción 3' },
-    ];
-    
-
-      const [showCard, setShowCard] = useState<boolean[]>([false, false, false]);
-
-      const openCard = (index: number) => {
-        const updatedShowCard = [...showCard];
-        updatedShowCard[index] = true;
-        setShowCard(updatedShowCard);
-
-        if (index===0) {
-            console.log('detalle');
-        }
-        else if(index===1){
-            console.log('editar cod');
-        }else if(index===2){
-            console.log('asignar curso');
-        }else{
-            console.log('deshanbilitar');
-            
-        }
-      };
-    
-      const closeCard = (index: number) => {
-        const updatedShowCard = [...showCard];
-        updatedShowCard[index] = false;
-        setShowCard(updatedShowCard);
-      };
-    
-
-    useEffect(() => {
-      setHeader([
-        {
-            text: 'No.'
-        },
-        {
-            text: 'Nombre.'
-        },
-        {
-            text: 'Cursos.'
-        },
-        {
-            text: 'Habilitar.'
-        },
-        {
-            text: 'Acciones.'
-        },
-      ])
-    
-      setTeachers([
-        {
-           
-            nombre: 'Nombre',
-            apellido: 'Apellido',
-            estado: 'Habilitado'
-        },
-        // {
-            
-        //     nombre: 'Luchito',
-        //     apellido: 'Gonzales',
-        //     estado: 'Deshabilitado'
-        // },
-        // {
-          
-        //     nombre: 'Luchito',
-        //     apellido: 'Gonzales',
-        //     estado: 'Habilitado'
-        // },
-      ])
-
-      setTeacherOption([
-        {
-            name: 'Detalle',
-            // fn: open1
-
-        },
-        {
-            name: 'Editar',
-            // fn: open2
-
-        },
-        {
-            name: 'Asignar curso',
-            // fn: open3
-
-        },
-        {
-            name: 'Deshabilitar',
-            // fn: open4
-
-        },
-      ])
-
-      setHeaderCourse([
-        {
-            text: 'No'
-        },
-        {
-            text: 'Curso'
-        },
-        {
-            text: 'Habilitar'
-        },
-        {
-            text: 'Acciones'
-        },
-      ])
-
-      setCourses([
-        {
-            curso: 'Matematicas',
-            estado: 'Habilitado'
-        },
-        {
-            curso: 'Fisica',
-            estado: 'Habilitado'
-        },
-        {
-            curso: 'Lengua',
-            estado: 'Habilitado'
-        },
-      ])
-
-      setCourseOption([
-        {
-            name:'Deshabilitar'
-        }
-      ])
-    
-
-    }, [])
-    
-    return{
-        header,
-        teachers,
-        teacherOption,
-        headerCourse,
-        courses,
-        courseOption,
-        options,
-        openCard,
-        closeCard,
-        showCard
+    switch (index) {
+      case 0:
+      console.log('1.detalle');
+      toggleOpen();
+        break;
+      case 1:
+        console.log('2.editar');
+        editItem(index)
+        toggleOpen();
+        break;
+      case 2:
+        console.log('3.asignar curso');
+        // toggleViewAsignarCurso();
+        break;
+      case 3:
+      console.log('4.deshabilitar');
+        
+        break;
+      default:
+        break;
     }
-}
+
+    // if (index===0) {
+    //   toggleOpen();
+    //   editTeacher(index)
+    //   console.log('1.detalle');
+    // } else if(index===1){
+    //   editTeacher(index)
+    //   console.log('2.editar');
+    //   toggleAbierto();
+    // }
+    // else if(index===2){
+    //   toggleViewAsignarCurso();
+    //   console.log('3.asignarcurso');
+    // }else{
+    //   console.log('4.deshabilitar');
+      
+    }
+
+  return {
+    headers,
+    options,
+    openView,
+   
+  };
+};
