@@ -9,8 +9,7 @@ export interface HeaderTable{
 
 export interface Option{
   title: string;
-  ct: string;
-  sub?: string;
+  handler:string;
   // fn: (index:number) => void | (() => Promise<void>);
 }
 
@@ -22,4 +21,6 @@ export interface FormPruebas{
   correo: string;
   usuario: string;
   password: string;
+  cursos?:string;
+  grado?:string;
 }

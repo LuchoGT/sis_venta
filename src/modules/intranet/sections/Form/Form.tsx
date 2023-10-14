@@ -1,31 +1,33 @@
 import { useEffect } from "react";
-// import { useProbando } from "../../components/TeacherAddContent/useProbando";
-import "./Form.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FormData } from "@/interfaces/interfaces";
-
+import { FormPruebas } from "@/interfaces/interfaces";
+import "./Form.scss";
 
 interface props {
-  // toggleViewDocente:()=>void,
-  // editarTituloFormDocente:(title:string)=>void,
-  onSubmit: SubmitHandler<FormData>;
+  onSubmit: SubmitHandler<FormPruebas>;
   onClose: () => void;
   editingIndex: number | null;
-  data:FormData[];
+  data: FormPruebas[];
+  viewingIndex: number | null;
 }
 
-export const Form = ({ onClose,onSubmit,data,editingIndex }: props) => {
-
+export const Form = ({
+  onClose,
+  onSubmit,
+  data,
+  editingIndex,
+  viewingIndex,
+}: props) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
     setValue,
-  } = useForm<FormData>();
+  } = useForm<FormPruebas>();
 
-  const handleFormSubmit = (formData: FormData) => {
+  const handleFormSubmit = (formData: FormPruebas) => {
     onSubmit(formData);
-    onClose()
+    onClose();
   };
 
   useEffect(() => {
@@ -38,19 +40,36 @@ export const Form = ({ onClose,onSubmit,data,editingIndex }: props) => {
       setValue("correo", itemToEdit.correo);
       setValue("usuario", itemToEdit.usuario);
       setValue("password", itemToEdit.password);
+    } else if (viewingIndex !== null) {
+      const itemToView = data[viewingIndex];
+      setValue("nombres", itemToView.nombres);
+      setValue("apellidos", itemToView.apellidos);
+      setValue("dni", itemToView.dni);
+      setValue("celular", itemToView.celular);
+      setValue("correo", itemToView.correo);
+      setValue("usuario", itemToView.usuario);
+      setValue("password", itemToView.password);
     }
-  }, [editingIndex, data]);
+  }, [editingIndex, viewingIndex, data]);
 
   return (
-    <div className='teacher-add'>
-      <h1>{editingIndex !== null ? 'Editar docente' : 'Agregar docente'}</h1>
-      <form className="teacher-add__form" onSubmit={handleSubmit(handleFormSubmit)}>
+    <div className="teacher-add">
+      {viewingIndex !== null ? (
+        <h1>Detalle docente</h1>
+      ) : (
+        <h1>{editingIndex !== null ? "Editar docente" : "Agregar docente"}</h1>
+      )}
+      <form
+        className="teacher-add__form"
+        onSubmit={handleSubmit(handleFormSubmit)}
+      >
         <div className="teacher-add__content">
           <label className="teacher-add__name">Nombre</label>
           <input
             type="text"
             className="teacher-add__input"
             placeholder="Escribir nombre"
+            disabled={viewingIndex !== null}
             {...register("nombres", { required: true })}
           />
           {errors.nombres && <span>Este campo es obligatorio</span>}
@@ -61,6 +80,7 @@ export const Form = ({ onClose,onSubmit,data,editingIndex }: props) => {
             className="teacher-add__input"
             type="text"
             placeholder="Escribir apellidos"
+            disabled={viewingIndex !== null}
             {...register("apellidos", { required: true })}
           />
           {errors.apellidos && <span>Este campo es obligatorio</span>}
@@ -71,6 +91,7 @@ export const Form = ({ onClose,onSubmit,data,editingIndex }: props) => {
             className="teacher-add__input"
             type="text"
             placeholder="Escribir dni"
+            disabled={viewingIndex !== null}
             {...register("dni", { required: true })}
           />
           {errors.dni && <span>Este campo es obligatorio</span>}
@@ -81,6 +102,7 @@ export const Form = ({ onClose,onSubmit,data,editingIndex }: props) => {
             className="teacher-add__input"
             type="text"
             placeholder="Escribir dni"
+            disabled={viewingIndex !== null}
             {...register("celular", { required: true })}
           />
           {errors.celular && <span>Este campo es obligatorio</span>}
@@ -91,41 +113,72 @@ export const Form = ({ onClose,onSubmit,data,editingIndex }: props) => {
             className="teacher-add__input"
             type="text"
             placeholder="Escribir correo"
+            disabled={viewingIndex !== null}
             {...register("correo", { required: true })}
           />
           {errors.correo && <span>Este campo es obligatorio</span>}
         </div>
-        <div className="teacher-add__separate"></div>
-        <div className="teacher-add__content">
-          <label className="teacher-add__name">Usuario</label>
-          <input
-            className="teacher-add__input"
-            type="text"
-            placeholder="Escribir usuario"
-            {...register("usuario", { required: true })}
-          />
-          {errors.usuario && <span>Este campo es obligatorio</span>}
-        </div>
-        <div className="teacher-add__content">
-          <label className="teacher-add__name">Contraseña</label>
-          <input
-            className="teacher-add__input"
-            type="text"
-            placeholder="Escribir password"
-            {...register("password", { required: true })}
-          />
-          {errors.password && <span>Este campo es obligatorio</span>}
-        </div>
+        {viewingIndex !== null ? (
+          <div className="teacher-add__content teacher-add__content--courses">
+            <label className="teacher-add__name">Cursos Asignados</label>
+            <div className="teacher-add__courses">
+              <ul className="teacher-add__list">
+                <li className="teacher-add__item">Biologia - 3 -B</li>
+                <li className="teacher-add__item">Biologia - 3 -B</li>
+                <li className="teacher-add__item">Biologia - 3 -B</li>
+                <li className="teacher-add__item">Biologia - 3 -B</li>
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <div className="teacher-add__login">
+            <div className="teacher-add__separate"></div>
+            <div className="teacher-add__content">
+              <label className="teacher-add__name">Usuario</label>
+              <input
+                className="teacher-add__input"
+                type="text"
+                placeholder="Escribir usuario"
+                disabled={viewingIndex !== null}
+                {...register("usuario", { required: true })}
+              />
+              {errors.usuario && <span>Este campo es obligatorio</span>}
+            </div>
+            <div className="teacher-add__content">
+              <label className="teacher-add__name">Contraseña</label>
+              <input
+                className="teacher-add__input"
+                type="text"
+                placeholder="Escribir password"
+                disabled={viewingIndex !== null}
+                {...register("password", { required: true })}
+              />
+              {errors.password && <span>Este campo es obligatorio</span>}
+            </div>
+          </div>
+        )}
         <div className="teacher-add__buttons">
-          <button
-            onClick={onClose}
-            className="teacher-add__button teacher-add__button--efect"
-          >
-            Cancelar
-          </button>
-          <button type="submit" className="teacher-add__button">
-          {editingIndex !== null ? 'Editar' : 'Agregar'}
-          </button>
+          {viewingIndex !== null ? (
+            <button
+              type="submit"
+              className="teacher-add__button teacher-add__button--efect"
+              onClick={onClose}
+            >
+              Regresar
+            </button>
+          ) : (
+            <div>
+              <button
+                onClick={onClose}
+                className="teacher-add__button teacher-add__button--efect"
+              >
+                Cancelar
+              </button>
+              <button type="submit" className="teacher-add__button">
+                {editingIndex !== null ? "Editar" : "Agregar"}
+              </button>
+            </div>
+          )}
         </div>
       </form>
     </div>

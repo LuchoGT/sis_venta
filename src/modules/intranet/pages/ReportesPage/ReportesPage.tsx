@@ -2,6 +2,7 @@ import {useEffect } from 'react'
 import {useState} from 'react';
 import { Tabla } from './Tabla';
 import { Formulario } from './Formulario';
+import { MyForm } from './MyForm';
 
 
 
@@ -19,7 +20,7 @@ export const ReportesPage = () => {
 
   const [formOpen, setFormOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-
+  const [viewingIndex, setViewingIndex] = useState<number | null>(null);
   
   const [data, setData] = useState<FormValues[]>(()=>{
     const savedData = localStorage.getItem('practicando');
@@ -64,6 +65,8 @@ export const ReportesPage = () => {
   const viewDetail = (index: number) => {
     // Implementa la lógica para ver los detalles del elemento
     // Puedes abrir un modal o una nueva página, por ejemplo
+    setFormOpen(true);
+    setViewingIndex(index);
   };
   useEffect(() => {
     const savedData = localStorage.getItem('practicando');
@@ -82,8 +85,10 @@ export const ReportesPage = () => {
           onClose={() => {
             setFormOpen(false);
             setEditingIndex(null);
+            setViewingIndex(null);
           }}
           editingIndex={editingIndex}
+          viewingIndex={viewingIndex}
           data={data}
         />
       ) : (
@@ -95,7 +100,10 @@ export const ReportesPage = () => {
           />
       )}
     </div>
-
+    <div>
+      <h1>Mi formulario con select option</h1>
+      <MyForm/>
+    </div>
     </>
   );
 }

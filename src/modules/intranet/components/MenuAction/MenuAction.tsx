@@ -1,38 +1,22 @@
 import { OptionIcon } from "@/assets/icon/OptionIcon";
-import { Option } from "@/interfaces/interfaces";
 import { useState } from "react";
-import { Form2 } from "../../sections/Form/Form2";
-import { useTable } from "../Table/useTable";
+import '../Table/Table.scss'
 
 interface props {
-  options: Option[];
-  openView: (index:number) => void;
+  items: React.ReactNode[];
 }
 
-export const MenuAction = ({ options, openView }: props) => {
-
-  const { closeView,showView} = useTable();
-
-
+export const MenuAction = ({ items }: props) => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
-    <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="table__item--rel">
-      <OptionIcon />
-      {
-        isMenuOpen && 
-        <ul className="menu-option">
-          {options.map((item, index) => (
-            <li
-              key={index}
-              className="menu-option__item"
-              onClick={() => openView(index)}
-            >
-              {item.title}
-            </li>
-          ))}
-        </ul>
-      }
+    <div className="table__item--rel">
+      <OptionIcon toggleMenu={toggleMenu} />
+      {isMenuOpen && <ul className="menu-option">{items}</ul>}
     </div>
   );
 };

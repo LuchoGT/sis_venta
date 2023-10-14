@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FormValues } from "./Formulario";
+import { MenuDes } from "./MenuDes";
 
 interface TablaProps {
   data: FormValues[];
@@ -11,6 +12,11 @@ export const Tabla = ({ data, openForm, editItem,viewDetail }: TablaProps) => {
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
+  const dropdownOptions = [
+    { label: 'Detalle', handler: 'viewDetail' },
+    { label: 'Editar', handler: 'editItem' },
+  ];
+
   const toggleDropdown = (index: number) => {
     if (activeIndex === index) {
       setActiveIndex(null);
@@ -19,6 +25,13 @@ export const Tabla = ({ data, openForm, editItem,viewDetail }: TablaProps) => {
     }
   };
   
+  const handleAction = (handler: string, index: number) => {
+    if (handler === 'viewDetail') {
+      viewDetail(index);
+    } else if (handler === 'editItem') {
+      editItem(index);
+    }
+  };
   return (
     <div>
       <button onClick={openForm}>Abrir Formulario</button>
@@ -38,17 +51,17 @@ export const Tabla = ({ data, openForm, editItem,viewDetail }: TablaProps) => {
                     <button onClick={() => editItem(index)}>Editar</button>
                   </td> */}
               <td>
-                <div className="dropdown">
-                  <button className="dropbtn" onClick={() => toggleDropdown(index)}>
-                    Acciones
-                  </button>
-                  {activeIndex === index && (
-                    <div className="dropdown-content">
-                      <button onClick={() => viewDetail(index)}>Detalle</button>
-                      <button onClick={() => editItem(index)}>Editar</button>
-                    </div>
-                  )}
-                </div>
+              <MenuDes
+                  label="Acciones"
+                  items={dropdownOptions.map(option => (
+                    <button
+                      key={option.label}
+                      onClick={() => handleAction(option.handler, index)}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                />
               </td>
             </tr>
           ))}

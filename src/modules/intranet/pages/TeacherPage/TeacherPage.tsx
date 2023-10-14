@@ -9,31 +9,32 @@ import { FormPruebas } from "@/interfaces/interfaces";
 
 export const TeacherPage = () => {
   const {
-    abierto,
-    toggleAbierto,
-    isViewDocente,
-    toggleViewDocente,
-    isViewAsignarCurso,
-    toggleViewAsignarCurso,
-    title,
-    editarTituloFormDocente,
     openView,
-    toggleOpen
+    toggleOpenView,
+    isPopUpView,
+    tooglePopUpView
   } = useTeacher();
+
+  //LOGICA PARA ALMACENAR EN LOCALSTORAGE EN LA VARIABLE data 
 
   const [data, setData] = useState<FormPruebas[]>(()=>{
     const savedData = localStorage.getItem('teacherList');
     return savedData ? JSON.parse(savedData) : [];
   });
 
+  //CREACION VARIABLE PARA EDITAR
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
+  //CREACION VARIABLE PARA DETALLE
+  const [viewingIndex, setViewingIndex] = useState<number | null>(null);
+
+  //FUNCION PARA AGREGAR
   const op = (formData: FormPruebas) => {
     // setData([...data, formData]);
     // const newData = [...data, formData];
     // setData(newData);
     // localStorage.setItem('teacherList', JSON.stringify(newData));
-    // toggleOpen()
+    // toggleOpenView()
 
    
     if (editingIndex !== null) {
@@ -51,15 +52,27 @@ export const TeacherPage = () => {
       // Guardar en localStorage
       localStorage.setItem('teacherList', JSON.stringify([...data, formData]));
     }
-    toggleOpen()
+    toggleOpenView()
   };
 
-
+  //FUNCION PARA EDITAR
   const editItem = (index: number) => {
-    toggleOpen()
+    toggleOpenView()
     setEditingIndex(index);
   };
 
+  const viewDetail = (index: number) => {
+    // Implementa la lógica para ver los detalles del elemento
+    // Puedes abrir un modal o una nueva página, por ejemplo
+    toggleOpenView();
+    setViewingIndex(index);
+  };
+
+  const viewNameCourses=(index:number)=>{
+    setViewingIndex(index);
+  }
+
+  //HOOK PARA RENDERIZAR LOS DATOS
   useEffect(() => {
     const savedData = localStorage.getItem('teacherList');
     if (savedData) {
@@ -72,38 +85,39 @@ export const TeacherPage = () => {
       <div className="teacher">
         {!openView ?(
           <TeacherList
-            toggleOpen={toggleOpen}
-            toggleViewAsignarCurso={toggleViewAsignarCurso}
-            // editarTituloFormDocente={editarTituloFormDocente}
+            toggleOpenView={toggleOpenView}
+            tooglePopUpView={tooglePopUpView}
             data={data}
             editItem={editItem}
+            viewDetail={viewDetail}
+            viewNameCourses={viewNameCourses}
           />
         ):(
           <Form
           onSubmit={op}
           onClose={() => {
-            toggleOpen()
+            toggleOpenView()
             setEditingIndex(null);
+            setViewingIndex(null);
           }}
-          editingIndex={editingIndex}
           data={data}
-          // editarTituloFormDocente={(newTitle)=>editarTituloFormDocente(newTitle)}
+          editingIndex={editingIndex}
+          viewingIndex={viewingIndex}
           />
         )
-      
         }
-        {/* {!abierto && <Form toggleAbierto={toggleAbierto} editarTituloFormDocente={(newTitle)=>editarTituloFormDocente(newTitle)}/>} */}
-        {/* {
-          isViewDocente && 
-          <Form
-          toggleViewDocente={toggleViewDocente}
-            editarTituloFormDocente={(newTitle)=>editarTituloFormDocente(newTitle)}
+        {
+          isPopUpView && 
+          <PopUp
+            title="Asignación de curso"
+            onClose={()=>{
+              tooglePopUpView();
+              setViewingIndex(null);
+            }}  
+            viewingIndex={viewingIndex}
+            data={data}
           />
-        } */}
-          {/* {
-          isViewAsignarCurso && 
-          <PopUp toggleViewAsignarCurso={toggleViewAsignarCurso} />
-        } */}
+        }
       </div>
     </>
   );

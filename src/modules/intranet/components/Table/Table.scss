@@ -33,17 +33,6 @@
   &__item{
     padding: .5rem;
     text-align: initial;
+    border-bottom: 1px solid #FFF;
   }
-  &--hidden{
-    display: none;
-  }
-}
-
-.queseso{
-  background-color: green;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    // padding: 30px 20px;
 }

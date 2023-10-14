@@ -2,13 +2,13 @@ import { UserAddIcon } from "@/assets/icon/UserAddIcon";
 import "./ButtonAdd.scss";
 
 interface props {
-  toggleOpen: () => void;
+  toggleOpenView: () => void;
   title:string,
 }
 
-export const ButtonAdd = ({ title,toggleOpen }: props) => {
+export const ButtonAdd = ({ title,toggleOpenView }: props) => {
   return (
-    <div className="button-add" onClick={toggleOpen} >
+    <div className="button-add" onClick={toggleOpenView} >
       <UserAddIcon />
       <span>{title}</span>
     </div>

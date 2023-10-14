@@ -1,7 +1,10 @@
-
-export const OptionIcon = () => {
+interface props{
+  toggleMenu:()=>void,
+}
+export const OptionIcon = ({toggleMenu}:props) => {
   return (
     <svg
+    onClick={toggleMenu}
       xmlns="http://www.w3.org/2000/svg"
       className="option-icon icon icon-tabler icon-tabler-dots-vertical"
       width="24"
