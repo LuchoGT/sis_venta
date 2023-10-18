@@ -15,7 +15,7 @@ export const Table = ({
   data,
   viewDetail,
   tooglePopUpView,
-  viewNameCourses
+  viewNameCourses,
 }: props) => {
   const { headers, options } = useTable();
 

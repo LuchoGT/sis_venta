@@ -13,7 +13,13 @@ interface FormularioProps {
 export interface FormValues {
   nombre: string;
   apellido: string;
+  // country:{
+  //     departamento:string;
+  //     distrito: string;
+  // };
+  countries:string[];
 }
+
 
 export const Formulario = ({
   onSubmit,
@@ -35,22 +41,35 @@ export const Formulario = ({
   const handleFormSubmit = (formData: FormValues) => {
     onSubmit(formData);
     onClose();
+    console.log(formData);
+    
   };
 
+
+
   useEffect(() => {
+    //cuando se va editar
     if (editingIndex !== null) {
       const itemToEdit = data[editingIndex];
       setValue("nombre", itemToEdit.nombre);
       setValue("apellido", itemToEdit.apellido);
+      setValue("countries", itemToEdit.countries);
+      //cuando se mostrar el detalle
     }else if(viewingIndex!==null){
       const itemToView = data[viewingIndex];
       setValue('nombre', itemToView.nombre);
       setValue('apellido', itemToView.apellido);
+      setValue('countries', itemToView.countries);
     }
   }, [editingIndex, data,viewingIndex]);
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
+     {viewingIndex !== null ? (
+        <h1>Detalle </h1>
+      ) : (
+        <h1>{editingIndex !== null ? "Editar " : "Agregar "}</h1>
+      )}
       <div>
         <label>Nombre</label>
         <input {...register("nombre", { required: "Nombre requerido" })} disabled={viewingIndex !== null}/>
@@ -61,6 +80,15 @@ export const Formulario = ({
         <input {...register("apellido", { required: "Apellido requerido" })} disabled={viewingIndex !== null}/>
         {errors.apellido && <span>{errors.apellido.message}</span>}
       </div>
+      {viewingIndex !== null && (
+        <div>
+          <label>Country</label>
+          <input
+            {...register('countries')}
+            disabled={viewingIndex !== null}
+          />
+        </div>
+      )}
       <div>
            {viewingIndex !== null ? (
             <button type="button" onClick={onClose}>

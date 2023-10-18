@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import "./PopupAdd.scss";
 import { FormPruebas } from "@/interfaces/interfaces";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PopUpTitle } from "../../components/PopUpTitle/PopUpTitle";
 import { Content } from "./Content";
 
@@ -10,10 +10,11 @@ interface props {
     onClose: () => void;
      viewingIndex: number | null;
      data: FormPruebas[];
-    title:string
+    title:string;
+  assignItem: (index: number, countries: string) => void; // Nueva prop para asignar un país
   }
 
-export const PopUp = ({onClose,viewingIndex,data,title}:props) => {
+export const PopUp = ({onClose,viewingIndex,data,title,assignItem}:props) => {
 
  
 
@@ -46,6 +47,9 @@ export const PopUp = ({onClose,viewingIndex,data,title}:props) => {
             onClose={onClose}
             data={data}
             viewingIndex={viewingIndex}
+            onAssign={(index, cursos) => {
+              assignItem(index, cursos); // Llama a la función para asignar el país
+            }}
             />
         </div>
     </div>

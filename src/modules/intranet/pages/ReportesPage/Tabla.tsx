@@ -1,37 +1,40 @@
 import { useState } from "react";
 import { FormValues } from "./Formulario";
 import { MenuDes } from "./MenuDes";
+import { Formulario2 } from "./Formulario2";
 
 interface TablaProps {
   data: FormValues[];
   openForm: () => void;
   editItem: (index: number) => void;
   viewDetail: (index: number) => void;
+  assignItem: (index: number, countries: string[]) => void; // Nueva prop para asignar un país
 }
-export const Tabla = ({ data, openForm, editItem,viewDetail }: TablaProps) => {
+export const Tabla = ({data, openForm, editItem,viewDetail,assignItem}: TablaProps) => {
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const [showFormulario2, setShowFormulario2] = useState(false);
+
+  const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
 
   const dropdownOptions = [
     { label: 'Detalle', handler: 'viewDetail' },
     { label: 'Editar', handler: 'editItem' },
+    { label: 'Asignar', handler: 'assignItem' },
   ];
 
-  const toggleDropdown = (index: number) => {
-    if (activeIndex === index) {
-      setActiveIndex(null);
-    } else {
-      setActiveIndex(index);
-    }
-  };
-  
   const handleAction = (handler: string, index: number) => {
     if (handler === 'viewDetail') {
       viewDetail(index);
     } else if (handler === 'editItem') {
       editItem(index);
+    }else if(handler==='assignItem'){
+      setSelectedRowIndex(index); // Guarda el índice seleccionado
+      setShowFormulario2(true); // Abre Formulario2
     }
   };
+
+
   return (
     <div>
       <button onClick={openForm}>Abrir Formulario</button>
@@ -40,6 +43,7 @@ export const Tabla = ({ data, openForm, editItem,viewDetail }: TablaProps) => {
           <tr>
             <th>Nombre</th>
             <th>Apellido</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -47,9 +51,6 @@ export const Tabla = ({ data, openForm, editItem,viewDetail }: TablaProps) => {
             <tr key={index}>
               <td>{item.nombre}</td>
               <td>{item.apellido}</td>
-              {/* <td>
-                    <button onClick={() => editItem(index)}>Editar</button>
-                  </td> */}
               <td>
               <MenuDes
                   label="Acciones"
@@ -67,6 +68,19 @@ export const Tabla = ({ data, openForm, editItem,viewDetail }: TablaProps) => {
           ))}
         </tbody>
       </table>
+      {showFormulario2 && (
+        <Formulario2
+          onClose={() => {
+            setShowFormulario2(false);
+            setSelectedRowIndex(null); // Restablece el índice seleccionado
+          }}
+          onAssign={(index, countries) => {
+            assignItem(index, countries); // Llama a la función para asignar el país
+          }}
+          selectedRowIndex={selectedRowIndex}
+          data={data} // Pasa los datos a Formulario2
+        />
+      )}
     </div>
   );
 };

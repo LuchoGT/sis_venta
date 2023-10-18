@@ -12,7 +12,6 @@ interface props{
   editItem: (index: number) => void;
   viewDetail: (index: number) => void;
   viewNameCourses: (index: number) => void;
-  
 }
 
 export const TeacherList = ({viewNameCourses,editItem,toggleOpenView,data,viewDetail,tooglePopUpView}:props) => {

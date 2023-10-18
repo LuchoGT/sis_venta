@@ -80,6 +80,17 @@ export const TeacherPage = () => {
     }
   }, []);
 
+  const assignItem = (index: number, cursos: string) => {
+   
+    const updatedData = [...data];
+    updatedData[index].cursos = cursos;
+    setData(updatedData); // Asumiendo que tienes un estado 'data' en Tabla
+    // Ahora puedes guardar los datos actualizados en el almacenamiento local
+    localStorage.setItem('teacherList', JSON.stringify(updatedData));
+  };
+
+
+
   return (
     <>
       <div className="teacher">
@@ -116,6 +127,7 @@ export const TeacherPage = () => {
             }}  
             viewingIndex={viewingIndex}
             data={data}
+            assignItem={assignItem}
           />
         }
       </div>

@@ -22,5 +22,5 @@ export interface FormPruebas{
   usuario: string;
   password: string;
   cursos?:string;
-  grado?:string;
+  // grado?:string;
 }

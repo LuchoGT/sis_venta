@@ -1,22 +1,15 @@
 import {useEffect } from 'react'
 import {useState} from 'react';
 import { Tabla } from './Tabla';
-import { Formulario } from './Formulario';
-import { MyForm } from './MyForm';
+import { FormValues, Formulario } from './Formulario';
 
 
 
-interface FormValues {
-  nombre: string;
-  apellido: string;
-}
 
 export const ReportesPage = () => {
 
 
   //prac 2 forma 
-
-
 
   const [formOpen, setFormOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -28,12 +21,6 @@ export const ReportesPage = () => {
   });
 
   const op = (formData: FormValues) => {
-    // const newData = [...data, formData];
-    // setData(newData);
-    // localStorage.setItem('practicando', JSON.stringify(newData));
-    // setFormOpen(false);
-
-
     if (editingIndex !== null) {
       // Si estamos editando, reemplazar el elemento existente
       const newData = [...data];
@@ -52,7 +39,6 @@ export const ReportesPage = () => {
 
     // Cerrar el formulario
     setFormOpen(false);
-
     
   };
 
@@ -75,6 +61,23 @@ export const ReportesPage = () => {
     }
   }, []);
 
+  const closeForm = () => {
+    setFormOpen(false);
+    setEditingIndex(null);
+    setViewingIndex(null);
+  };
+
+  const assignItem = (index: number, countries: string[]) => {
+
+    const updatedData = [...data];
+    updatedData[index].countries = countries;
+    setData(updatedData); 
+
+    // Ahora puedes guardar los datos actualizados en el almacenamiento local
+    localStorage.setItem('practicando', JSON.stringify(updatedData));
+  };
+
+  
   return (
     <>
     <div>
@@ -82,27 +85,20 @@ export const ReportesPage = () => {
       {formOpen ? (
         <Formulario
           onSubmit={op}
-          onClose={() => {
-            setFormOpen(false);
-            setEditingIndex(null);
-            setViewingIndex(null);
-          }}
+          onClose={closeForm}
           editingIndex={editingIndex}
           viewingIndex={viewingIndex}
           data={data}
         />
-      ) : (
+      ) :(
         <Tabla 
-          data={data} 
-          openForm={() => setFormOpen(true)} 
-          editItem={editItem} 
-          viewDetail={viewDetail}
-          />
+        data={data} 
+        openForm={() => setFormOpen(true)} 
+        editItem={editItem} 
+        viewDetail={viewDetail}
+        assignItem={assignItem}
+        />
       )}
-    </div>
-    <div>
-      <h1>Mi formulario con select option</h1>
-      <MyForm/>
     </div>
     </>
   );

@@ -40,6 +40,7 @@ export const Form = ({
       setValue("correo", itemToEdit.correo);
       setValue("usuario", itemToEdit.usuario);
       setValue("password", itemToEdit.password);
+      setValue("cursos", itemToEdit.cursos);
     } else if (viewingIndex !== null) {
       const itemToView = data[viewingIndex];
       setValue("nombres", itemToView.nombres);
@@ -49,6 +50,7 @@ export const Form = ({
       setValue("correo", itemToView.correo);
       setValue("usuario", itemToView.usuario);
       setValue("password", itemToView.password);
+      setValue("cursos", itemToView.cursos);
     }
   }, [editingIndex, viewingIndex, data]);
 
@@ -123,10 +125,10 @@ export const Form = ({
             <label className="teacher-add__name">Cursos Asignados</label>
             <div className="teacher-add__courses">
               <ul className="teacher-add__list">
-                <li className="teacher-add__item">Biologia - 3 -B</li>
-                <li className="teacher-add__item">Biologia - 3 -B</li>
-                <li className="teacher-add__item">Biologia - 3 -B</li>
-                <li className="teacher-add__item">Biologia - 3 -B</li>
+              <input
+            {...register('cursos')}
+            disabled={viewingIndex !== null}
+              />
               </ul>
             </div>
           </div>
