@@ -8,19 +8,22 @@ interface TablaProps {
   openForm: () => void;
   editItem: (index: number) => void;
   viewDetail: (index: number) => void;
-  assignItem: (index: number, countries: string[]) => void; // Nueva prop para asignar un país
+  assignItem: (index: number, countries: FormValues['countries']) => void; // Nueva prop para asignar un país
+  toogleHabilitar:(index:number)=>void;
 }
-export const Tabla = ({data, openForm, editItem,viewDetail,assignItem}: TablaProps) => {
+export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabilitar}: TablaProps) => {
 
 
   const [showFormulario2, setShowFormulario2] = useState(false);
 
   const [selectedRowIndex, setSelectedRowIndex] = useState<number | null>(null);
 
+
   const dropdownOptions = [
     { label: 'Detalle', handler: 'viewDetail' },
     { label: 'Editar', handler: 'editItem' },
     { label: 'Asignar', handler: 'assignItem' },
+    { label: 'Habilitar', handler: 'Habilitar' },
   ];
 
   const handleAction = (handler: string, index: number) => {
@@ -31,6 +34,8 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem}: TablaPro
     }else if(handler==='assignItem'){
       setSelectedRowIndex(index); // Guarda el índice seleccionado
       setShowFormulario2(true); // Abre Formulario2
+    }else if(handler==='Habilitar'){
+      toogleHabilitar(index)
     }
   };
 
@@ -43,6 +48,7 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem}: TablaPro
           <tr>
             <th>Nombre</th>
             <th>Apellido</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -51,6 +57,9 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem}: TablaPro
             <tr key={index}>
               <td>{item.nombre}</td>
               <td>{item.apellido}</td>
+              <td>
+              {item.estado ? 'Deshabilitado' : 'Habilitado'}
+              </td>
               <td>
               <MenuDes
                   label="Acciones"
@@ -64,6 +73,7 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem}: TablaPro
                   ))}
                 />
               </td>
+              
             </tr>
           ))}
         </tbody>

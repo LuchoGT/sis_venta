@@ -21,6 +21,11 @@ export interface FormPruebas{
   correo: string;
   usuario: string;
   password: string;
-  cursos?:string;
+  cursos:Cursos[];
   // grado?:string;
+}
+
+export interface Cursos{
+  course:string;
+  room:string;
 }

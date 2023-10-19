@@ -1,22 +1,29 @@
 import { PopupAdd } from "../PopupAdd/PopupAdd";
+import { SectionAdd } from "./SectionAdd";
 import './SectionList.scss'
-import { usePopup } from "../PopupAdd/usePopup";
-interface props{
-  isOpenList:boolean
-}
-export const SectionsList = ({isOpenList}:props) => {
+import { useState } from "react";
 
-  const {isOpenPopUp,openPopUp,closePopUp} = usePopup()
+export const SectionsList = () => {
+
+  const [isOpenPopUp, setIsOpenPopUp] = useState<boolean>(false)
+  
+  const tooglePopUp=()=>{
+    setIsOpenPopUp(!isOpenPopUp);
+  }
   return (
-    <div className={`${isOpenList ? 'hidden-sections' : ''}`}>
-      <h1>Secciones</h1>
-      <div onClick={openPopUp}>
-        Agregar
+    <>
+      <div className="">
+        <h1>Secciones</h1>
+        <div onClick={tooglePopUp}>
+          Agregar
+        </div>
       </div>
-      <PopupAdd 
-        isOpenPopUp={isOpenPopUp}
-        closePopUp={closePopUp}
-        title="Agregar salon"/>
-    </div>
+      {
+        isOpenPopUp && 
+        <PopupAdd title="Agregar salon" tooglePopUp={tooglePopUp}>
+          <SectionAdd  tooglePopUp={tooglePopUp} />
+        </PopupAdd>
+      }
+    </>
   )
 }

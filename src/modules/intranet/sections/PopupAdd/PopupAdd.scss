@@ -1,85 +1,105 @@
-@import '../../../../theme/variables/colors';
+@import "../../../../theme/variables/colors";
 
-.popUp-add{
-    background-color: rgba(32, 35, 41, .8);
+.popUp-add {
+  background-color: rgba(32, 35, 41, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  &__container {
+    width: 500px;
+    background: $white;
+    border-radius: 0.5rem;
+  }
+
+  &__head {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    color: white;
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-   
-    &__container{
-        width: 450px;
-        background: $white;
-        border-radius: .5rem;
-    }
+    background: $primary;
+    padding: 0.5rem 1rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
 
-    &__head{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: $primary;
-        padding: 0.5rem 1rem;
-        border-top-left-radius: .5rem;
-        border-top-right-radius: .5rem;
-    }
-    &__title{
-        font-size: 1.2rem;
-        font-weight: 600;
-    }
-
-    &__form{
-        // padding: 0.5rem 1rem;
-        // display: flex;
-        // flex-wrap: wrap;
-        // flex-direction: column;
-        // margin-top: 1rem;
-        // color: black;
-    }
-    &__content{
-        padding: 0.5rem 1rem;
+  &__form {
+    // padding: 0.5rem 1rem;
+    // display: flex;
+    // flex-wrap: wrap;
+    // flex-direction: column;
+    // margin-top: 1rem;
+    // color: black;
+  }
+  &__content {
+    padding: 0.5rem 1rem;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
     margin-top: 1rem;
     color: black;
+  }
+  &__subcontent{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  &__group{
+    width: 10rem;
+    &--upgrade{
+        width: 15rem;
     }
-    &__input{
-        padding: .5rem;
-        outline: none;
-        border-radius: .3rem;
-        border: 1px solid black;
+  }
+  &__select{
+    width: 10rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    &--upgrade{
+        width: 15rem;
     }
-    &__buttons{
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 3rem;
-        margin-bottom: 1rem;
+  }
+  &__agregar{
+    width: 100%;
+    cursor: pointer;
+  }
+  &__input {
+    padding: 0.5rem;
+    outline: none;
+    border-radius: 0.3rem;
+    border: 1px solid black;
+  }
+  &__buttons {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  &__button {
+    padding: 0.5rem 3rem;
+    background: $button-add;
+    border: 1px solid $button-add;
+    box-shadow: none;
+    border-radius: 0.5rem;
+    color: $white;
+    font-weight: 600;
+    &--cancel {
+      background: $white;
+      margin-right: 1rem;
+      color: $button-add;
     }
-    &__button{
-        padding: .5rem 3rem;
-        background: $button-add;
-        border: 1px solid $button-add;
-        box-shadow: none;
-        border-radius: .5rem;
-        color: $white;
-        &--cancel{
-            background: $white;
-            margin-right: 1rem;
-            color: $button-add;
-        }
-        &:disabled{
-           
-            background-color:  internal-light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
-        }
+    &:disabled {
+      opacity: .5;
     }
-}
-
-.hidden-popup{
-    display: none;
+  }
 }

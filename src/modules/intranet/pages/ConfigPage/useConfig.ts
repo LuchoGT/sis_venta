@@ -4,11 +4,12 @@ export const useConfig = () => {
 
     const [isOpenList, setIsOpenList] = useState<boolean>(true);
 
-    const closeListConfig=()=>setIsOpenList(false);
-    const openListConfig=()=>setIsOpenList(true);
+    const toogleOpenList=()=>{
+      setIsOpenList(!isOpenList);
+    }
+   
   return {
     isOpenList,
-    openListConfig,
-    closeListConfig,
+    toogleOpenList
   }
 }

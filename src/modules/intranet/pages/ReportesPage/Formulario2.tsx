@@ -1,19 +1,19 @@
 import { useForm } from "react-hook-form";
-import { FormValues } from "./Formulario";
+import { Countries, FormValues } from "./Formulario";
 import { useState, useEffect } from "react";
 
 interface Formulario2Props {
   onClose: () => void;
-  onAssign: (index: number, countries: string[]) => void; // Función para agregar datos
-  selectedRowIndex:number|null;
-  data:FormValues[];
+  onAssign: (index: number, countries: FormValues["countries"]) => void; // Función para agregar datos
+  selectedRowIndex: number | null;
+  data: FormValues[];
 }
 
 export const Formulario2 = ({
   onClose,
   onAssign,
   selectedRowIndex,
-  data
+  data,
 }: Formulario2Props) => {
   const {
     register,
@@ -22,25 +22,60 @@ export const Formulario2 = ({
     reset,
   } = useForm<FormValues>();
 
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  // const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  // const [selectedCountries, setSelectedCountries] = useState<Countries[]>([]);
 
+  const [selectedCountries, setSelectedCountries] = useState<FormValues['countries']>([]);
 
-  const handlEnlistar = (data: { countries: string }) => {
-    // setSelectedCountries(data.countries);
-    // setSelectedCountries([...selectedCountries,data.countries]);
-    // reset();
-    const countryToAdd = data.countries.trim(); // Elimina espacios al principio y al final
+  // const handlEnlistar = (data: { countries: string }) => {
+  //   // setSelectedCountries(data.countries);
+  //   // setSelectedCountries([...selectedCountries,data.countries]);
+  //   // setSelectedCountries([...selectedCountries,{departamento:data.countries}]);
+  //   // reset();
+  //   // const countryToAdd = data.countries.trim(); // Elimina espacios al principio y al final
 
-    if (countryToAdd && !selectedCountries.includes(countryToAdd)) {
-      // Verifica si el país no está en la lista antes de agregarlo
-      setSelectedCountries([...selectedCountries, countryToAdd]);
+  //   // if (countryToAdd && !selectedCountries.includes(countryToAdd)) {
+  //   //   // Verifica si el país no está en la lista antes de agregarlo
+  //   //   setSelectedCountries([...selectedCountries, countryToAdd]);
+  //   // }
+  //   const countryToAdd = data.countries.trim(); // Elimina espacios al principio y al final
+
+  // if (countryToAdd && !selectedCountries.some(country => country.departamento === countryToAdd)) {
+  //   setSelectedCountries([...selectedCountries, { departamento: countryToAdd }]);
+  // }
+  //   reset();
+
+  // };
+  // const handlEnlistar = (data: { countries: Countries }) => {
+
+  // //   const countryToAdd = data.countries.trim(); // Elimina espacios al principio y al final
+
+  // // if (countryToAdd && !selectedCountries.some(country => country.departamento === countryToAdd)) {
+  // //   setSelectedCountries([...selectedCountries, { departamento: countryToAdd }]);
+  // // }
+  // //   reset();
+
+  //   setSelectedCountries([...selectedCountries, data.countries]);
+  // reset();
+
+  // };
+
+  const handlEnlistar = (data: { departamento: string; distrito: string }) => {
+    // setSelectedCountries([
+    //   ...selectedCountries,
+    //   { departamento: data.departamento, distrito: data.distrito },
+    // ]);
+    const { departamento, distrito } = data;
+
+    // Verificar si ya existe un elemento con el mismo conjunto de departamento y distrito
+    if (!selectedCountries.some(country => country.departamento === departamento && country.distrito === distrito)) {
+      setSelectedCountries([...selectedCountries, { departamento, distrito }]);
     }
-    reset(); // Limpia el campo de entrada después de agregar el país
-
+    reset();
   };
 
   useEffect(() => {
-    const savedData = localStorage.getItem('practicando');
+    const savedData = localStorage.getItem("practicando");
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       // Asegúrate de que selectedRowIndex sea válido antes de intentar acceder a los países
@@ -58,31 +93,44 @@ export const Formulario2 = ({
     //   onAssign(selectedRowIndex,selectedCountries);
     // }
 
-    if (selectedCountries.length>0 &&selectedRowIndex!==null) {
-      onAssign(selectedRowIndex,selectedCountries);
+    if (selectedCountries.length > 0 && selectedRowIndex !== null) {
+      onAssign(selectedRowIndex, selectedCountries);
     }
 
-    onClose()
+    onClose();
   };
- 
 
+  const handleEliminar = (index: number) => {
+    const updatedItems = [...selectedCountries];
+    updatedItems.splice(index, 1);
+    setSelectedCountries(updatedItems);
 
-      const selectedData = selectedRowIndex !== null ? data[selectedRowIndex] : null;
+    // Actualizar el localStorage después de eliminar el elemento
+    // localStorage.setItem("practicando", JSON.stringify(updatedItems));
+    const updatedData = [...data];
+    updatedData[selectedRowIndex].countries = updatedItems;
+    localStorage.setItem('practicando', JSON.stringify(updatedData));
+  };
+
+  const selectedData =
+    selectedRowIndex !== null ? data[selectedRowIndex] : null;
 
   return (
     <div>
       <h2>Formulario 2</h2>
       <form>
         <div>
-        {selectedData && (
+          {selectedData && (
             <div>
-              <p>Nombres: {selectedData.nombre + " "+selectedData.apellido}</p>
+              <p>
+                Nombres: {selectedData.nombre + " " + selectedData.apellido}
+              </p>
             </div>
           )}
           <div>
             <label>Country</label>
             <select
-              {...register("countries", { required: "Country required" })}
+              {...register("departamento", { required: "Country required" })}
             >
               <option value="">Select a country</option>
               <option value="USA">USA</option>
@@ -93,26 +141,41 @@ export const Formulario2 = ({
               <option value="3">3</option>
               {/* Agrega más opciones según tus necesidades */}
             </select>
-            {errors.countries && <span>{errors.countries.message}</span>}
+            {errors.departamento && <span>{errors.departamento.message}</span>}
+          </div>
+          <div>
+            <label>Distrito</label>
+            <select
+              {...register("distrito", { required: "Distrito requerido" })}
+            >
+              <option value="">Selecciona un distrito</option>
+              <option value="Distrito1">Distrito 1</option>
+              <option value="Distrito2">Distrito 2</option>
+              {/* Agrega más opciones según tus necesidades */}
+            </select>
+            {errors.distrito && <span>{errors.distrito.message}</span>}
           </div>
           <button type="button" onClick={handleSubmit(handlEnlistar)}>
             Enlistar
           </button>
-          {
-
-            selectedCountries.length>0 &&
-           <div>
+          {selectedCountries.length > 0 && (
+            <div>
               <p>Países seleccionados:</p>
               <ul>
                 {selectedCountries.map((country, index) => (
-                  <li key={index}>{country}</li>
+                  <li
+                    key={index}
+                  >{`${country.departamento} - ${country.distrito}`}
+                  <button onClick={()=>handleEliminar(index)}>Eliminar</button>
+                  </li>
                 ))}
               </ul>
             </div>
-
-          }
+          )}
           <button onClick={onClose}>Cerrar Formulario2</button>
-          <button type="button" onClick={handleAgregar}>Agregar</button>
+          <button type="button" onClick={handleAgregar}  disabled={selectedCountries.length === 0}>
+            Agregar
+          </button>
         </div>
       </form>
     </div>

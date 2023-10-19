@@ -120,15 +120,14 @@ export const Form = ({
           />
           {errors.correo && <span>Este campo es obligatorio</span>}
         </div>
-        {viewingIndex !== null ? (
+        {viewingIndex !== null  && data[viewingIndex].cursos ? (
           <div className="teacher-add__content teacher-add__content--courses">
             <label className="teacher-add__name">Cursos Asignados</label>
             <div className="teacher-add__courses">
               <ul className="teacher-add__list">
-              <input
-            {...register('cursos')}
-            disabled={viewingIndex !== null}
-              />
+              {data[viewingIndex]?.cursos.map((cursos, index) => (
+              <li className="teacher-add__item" key={index}>{cursos.course} - {cursos.room}</li>
+            ))}
               </ul>
             </div>
           </div>

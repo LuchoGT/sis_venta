@@ -1,25 +1,32 @@
+import { useState } from "react";
 import './CoursesList.scss'
-import { Table } from '../../components/Table/Table';
-import { PopupAdd } from '../PopupAdd/PopupAdd';
-import { usePopup } from '../PopupAdd/usePopup';
-
-interface props{
-  isOpenList:boolean
-}
-export const CoursesList = ({isOpenList}:props) => {
+import { PopupAdd } from "../PopupAdd/PopupAdd";
+import { CourseAdd } from "./CourseAdd";
 
 
-  const {isOpenPopUp,openPopUp,closePopUp} = usePopup()
+
+export const CoursesList = () => {
+
+  const [isOpenPopUp, setIsOpenPopUp] = useState<boolean>(false)
   
+  const tooglePopUp=()=>{
+    setIsOpenPopUp(!isOpenPopUp);
+  }
   return (
-    <div className={`${isOpenList ?  'courses': 'hidden-courses'}`}>
-        <div className='courses__add'>
-            <div onClick={openPopUp} >Agregar</div>
-        </div>
-        <PopupAdd 
-          isOpenPopUp={isOpenPopUp}
-          closePopUp={closePopUp}
-          title="Agregar curso"/>
-    </div>
+    <>
+      <div className='courses'>
+          <div className='courses__add'>
+              <div onClick={tooglePopUp}>Agregar</div>
+          </div>
+        <p>Estas en Cursos</p>
+      </div>
+      {
+      isOpenPopUp && 
+      <PopupAdd tooglePopUp={tooglePopUp} title="Agregar curso">
+        <CourseAdd tooglePopUp={tooglePopUp}/>
+      </PopupAdd>
+      }
+    </>
+    
   )
 }

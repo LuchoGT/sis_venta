@@ -1,20 +1,25 @@
+import { useState } from 'react';
+import './ConfigPage.scss'
 import { CoursesList } from '../../sections/CoursesList/CoursesList';
 import { SectionsList } from '../../sections/SectionsList/SectionsList';
-import './ConfigPage.scss'
-import { useConfig } from './useConfig'
+import { ConfigMenu } from '../../components/ConfigMenu/ConfigMenu';
 export const ConfigPage = () => {
 
-  const {isOpenList,openListConfig,closeListConfig} = useConfig();
+  const [selectedTab, setSelectedTab] = useState('Cursos');
+
+  const handleTabClick = (tabName:string) => {
+    setSelectedTab(tabName);
+  };
 
   return (
     <div className='config'>
       <ul className='config__links'>
-        <li className='config__element' onClick={openListConfig}>Cursos</li>
-        <li className='config__element' onClick={closeListConfig}>Salones</li>
+        <ConfigMenu tabName="Cursos" selectedTab={selectedTab} handleTabClick={handleTabClick}/>
+        <ConfigMenu tabName="Salones" selectedTab={selectedTab} handleTabClick={handleTabClick}/>
       </ul>
-      <span className='config__indicator'></span>
-      <CoursesList isOpenList={isOpenList} />
-      <SectionsList isOpenList={isOpenList}/>
+      {/* <span className='config__indicator'></span> */}
+      {selectedTab === 'Cursos' && <CoursesList />}
+      {selectedTab === 'Salones' && <SectionsList />}
     </div>
   )
 }

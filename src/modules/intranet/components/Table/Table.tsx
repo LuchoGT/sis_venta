@@ -42,7 +42,7 @@ export const Table = ({
           <div key={index} className="table__item">
             <div>{index + 1}</div>
             <div>{item.nombres + " " + item.apellidos}</div>
-            <div>01</div>
+            <div>0{item.cursos?.length}</div>
             <div>Habilitado</div>
             <MenuAction
               items={options.map((option) => (

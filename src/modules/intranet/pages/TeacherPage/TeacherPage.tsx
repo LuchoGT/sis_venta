@@ -1,93 +1,30 @@
-import { useState } from "react";
 import { Form } from "../../sections/Form/Form";
 import { PopUp } from "../../sections/PopupAdd/PopUp";
 import { TeacherList } from "../../sections/TeacherList/TeacherList";
-import "./TeacherPage.scss";
 import { useTeacher } from "./useTeacher";
-import { useEffect } from "react";
-import { FormPruebas } from "@/interfaces/interfaces";
+import "./TeacherPage.scss";
+import { PopupAdd } from "../../sections/PopupAdd/PopupAdd";
+import { Content } from "../../sections/PopupAdd/Content";
 
 export const TeacherPage = () => {
   const {
+    isPopUpView,
+    tooglePopUpView,
     openView,
     toggleOpenView,
-    isPopUpView,
-    tooglePopUpView
+    viewingIndex,
+    handleAdd,
+    editItem,
+    viewDetail,
+    viewNameCourses,
+    assignItem,
+    closeForm,
+    data,
+    editingIndex,
+    ClosePop
   } = useTeacher();
 
-  //LOGICA PARA ALMACENAR EN LOCALSTORAGE EN LA VARIABLE data 
-
-  const [data, setData] = useState<FormPruebas[]>(()=>{
-    const savedData = localStorage.getItem('teacherList');
-    return savedData ? JSON.parse(savedData) : [];
-  });
-
-  //CREACION VARIABLE PARA EDITAR
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-
-  //CREACION VARIABLE PARA DETALLE
-  const [viewingIndex, setViewingIndex] = useState<number | null>(null);
-
-  //FUNCION PARA AGREGAR
-  const op = (formData: FormPruebas) => {
-    // setData([...data, formData]);
-    // const newData = [...data, formData];
-    // setData(newData);
-    // localStorage.setItem('teacherList', JSON.stringify(newData));
-    // toggleOpenView()
-
-   
-    if (editingIndex !== null) {
-      // Si estamos editando, reemplazar el elemento existente
-      const newData = [...data];
-      newData[editingIndex] = formData;
-      setData(newData);
-      setEditingIndex(null);
-      // Actualizar en localStorage
-      localStorage.setItem('teacherList', JSON.stringify(newData));
-    } else {
-      // Si no estamos editando, agregar un nuevo elemento
-      setData([...data, formData]);
-
-      // Guardar en localStorage
-      localStorage.setItem('teacherList', JSON.stringify([...data, formData]));
-    }
-    toggleOpenView()
-  };
-
-  //FUNCION PARA EDITAR
-  const editItem = (index: number) => {
-    toggleOpenView()
-    setEditingIndex(index);
-  };
-
-  const viewDetail = (index: number) => {
-    // Implementa la lógica para ver los detalles del elemento
-    // Puedes abrir un modal o una nueva página, por ejemplo
-    toggleOpenView();
-    setViewingIndex(index);
-  };
-
-  const viewNameCourses=(index:number)=>{
-    setViewingIndex(index);
-  }
-
-  //HOOK PARA RENDERIZAR LOS DATOS
-  useEffect(() => {
-    const savedData = localStorage.getItem('teacherList');
-    if (savedData) {
-      setData(JSON.parse(savedData));
-    }
-  }, []);
-
-  const assignItem = (index: number, cursos: string) => {
-   
-    const updatedData = [...data];
-    updatedData[index].cursos = cursos;
-    setData(updatedData); // Asumiendo que tienes un estado 'data' en Tabla
-    // Ahora puedes guardar los datos actualizados en el almacenamiento local
-    localStorage.setItem('teacherList', JSON.stringify(updatedData));
-  };
+  
 
 
 
@@ -105,12 +42,8 @@ export const TeacherPage = () => {
           />
         ):(
           <Form
-          onSubmit={op}
-          onClose={() => {
-            toggleOpenView()
-            setEditingIndex(null);
-            setViewingIndex(null);
-          }}
+          onSubmit={handleAdd}
+          onClose={closeForm}
           data={data}
           editingIndex={editingIndex}
           viewingIndex={viewingIndex}
@@ -119,16 +52,22 @@ export const TeacherPage = () => {
         }
         {
           isPopUpView && 
-          <PopUp
+          <PopupAdd
+            tooglePopUp={tooglePopUpView}
             title="Asignación de curso"
-            onClose={()=>{
-              tooglePopUpView();
-              setViewingIndex(null);
-            }}  
-            viewingIndex={viewingIndex}
-            data={data}
-            assignItem={assignItem}
-          />
+            // onClose={ClosePop}  
+            // viewingIndex={viewingIndex}
+            // data={data}
+            // assignItem={assignItem}
+          >
+             <Content
+          onClose={ClosePop}
+          data={data}
+          viewingIndex={viewingIndex}
+          onAssign={(index, cursos) => {
+            assignItem(index, cursos); // Llama a la función para asignar el país
+          }}/>
+          </PopupAdd>
         }
       </div>
     </>

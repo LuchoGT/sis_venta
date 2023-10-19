@@ -7,141 +7,146 @@ interface props {
   onClose: () => void;
   viewingIndex: number | null;
   data: FormPruebas[];
-  onAssign: (index: number, cursos: string) => void; // Función para agregar datos
-
+  onAssign: (index: number, cursos: FormPruebas["cursos"]) => void; // Función para agregar datos
 }
 
+export const Content = ({ onClose, data, viewingIndex, onAssign }: props) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormPruebas>();
 
+  // const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<FormPruebas["cursos"]>([]);
 
-export const Content = ({onClose, data, viewingIndex,onAssign }: props) => {
-  
-  
-  const { register, setValue, handleSubmit,reset } = useForm<FormPruebas>();
+  const handlEnlistar = (data: { course: string; room: string }) => {
+    // const countryToAdd = data.cursos.trim(); // Elimina espacios al principio y al final
 
-  // useEffect(() => {
-  //   if (viewingIndex !== null) {
-  //     const itemToView = data[viewingIndex];
-  //     setValue("nombres", itemToView.nombres + " " + itemToView.apellidos);
-  //   }
-  // }, [viewingIndex, data]);
+    // if (countryToAdd && !selectedItems.includes(countryToAdd)) {
+    //   // Verifica si el país no está en la lista antes de agregarlo
+    //   setSelectedItems([...selectedItems, countryToAdd]);
+    // }
+    // reset(); // Limpia el campo de entrada después de agregar el país
 
-  // const [probando, setProbando] = useState<probando[]>(()=>{
-  //   const savedDataF = localStorage.getItem('asignar');
-  //   return savedDataF ? JSON.parse(savedDataF) : [];
-  // });
+    const { course, room } = data;
 
-  // const pro = (efe: probando) => {
-  //   const newP = [...probando, efe];
-  //   setProbando(newP);
-  //   localStorage.setItem('asignar', JSON.stringify(newP));
-  //   console.log('probando asignar');
-
-  // };
-
-  // useEffect(() => {
-  //   const savedData = localStorage.getItem('asignar');
-  //   if (savedData) {
-  //     setProbando(JSON.parse(savedData));
-  //   }
-  // }, []);
-
-  const [selectedItems, setSelectedItems] = useState<string>('');
-
-  // const onSubmit = (data: probando) => {
-  //   // Agregar los valores seleccionados a la lista si ambos campos están llenos
-  //   if (data.cursos && data.grado) {
-  //     setSelectedItems([...selectedItems, `${data.cursos} - ${data.grado}`]);
-  //   }
-  //   reset({ grado: "", cursos:""});
-  //   console.log(data);
-  // };
-
-  // const handleRemoveItem = (index: number) => {
-  //   const updatedItems = [...selectedItems];
-  //   updatedItems.splice(index, 1);
-  //   setSelectedItems(updatedItems);
-  //    // Actualizar el localStorage después de eliminar el elemento
-  //    localStorage.setItem("asignar", JSON.stringify(updatedItems));
-  // };
-
-  // const handleAddToLocalStorage = () => {
-  //   // Almacena los valores en el localStorage como una cadena JSON
-  //   localStorage.setItem("asignar", JSON.stringify(selectedItems));
-  // };
-
-  // useEffect(() => {
-  //   // Recuperar los elementos almacenados en localStorage al cargar la página
-  //   const storedItems = localStorage.getItem("asignar");
-  //   if (storedItems) {
-  //     setSelectedItems(JSON.parse(storedItems));
-  //   }
-  // }, []);
-
-  // const isAddToLocalStorageDisabled = selectedItems.length === 0;
-
-  const handlEnlistar = (data: { cursos: string }) => {
-    setSelectedItems(data.cursos);
+    // Verificar si ya existe un elemento con el mismo conjunto de course y room
+    if (
+      !selectedItems.some(
+        (cursos) => cursos.course === course && cursos.room === room
+      )
+    ) {
+      setSelectedItems([...selectedItems, { course, room }]);
+    }
     reset();
-
-   
   };
 
   const handleAgregar = () => {
-    if (selectedItems && viewingIndex!==null) {
-      onAssign(viewingIndex,selectedItems);
+    if (selectedItems.length > 0 && viewingIndex !== null) {
+      onAssign(viewingIndex, selectedItems);
     }
 
-    onClose()
+    onClose();
   };
 
+  useEffect(() => {
+    const savedData = localStorage.getItem("teacherList");
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      // Asegúrate de que selectedRowIndex sea válido antes de intentar acceder a los países
+      if (viewingIndex !== null) {
+        // Verifica si los países están definidos antes de intentar acceder a su longitud
+        if (parsedData[viewingIndex]?.cursos) {
+          setSelectedItems(parsedData[viewingIndex].cursos);
+        }
+      }
+    }
+  }, [viewingIndex]);
   const selectedData = viewingIndex !== null ? data[viewingIndex] : null;
 
+  const handleDelete = (index: number) => {
+    const updatedItems = [...selectedItems];
+    updatedItems.splice(index, 1);
+    setSelectedItems(updatedItems);
 
+    // Actualizar el localStorage después de eliminar el elemento
+    // localStorage.setItem("practicando", JSON.stringify(updatedItems));
+    const updatedData = [...data];
+    updatedData[viewingIndex].cursos = updatedItems;
+    localStorage.setItem("teacherList", JSON.stringify(updatedData));
+  };
   return (
     <form className="popUp-add__form">
       <div className="popUp-add__content">
-        <label>Docente</label>
+        <p>Docente</p>
         {selectedData && (
-            <div>
-              <p>Nombres: {selectedData.nombres + " "+selectedData.apellidos}</p>
-            </div>
-          )}
+          <span>{selectedData.nombres + " " + selectedData.apellidos}</span>
+        )}
       </div>
       <div className="popUp-add__content">
-        <div>
-          <span>Curso</span>
-          <select {...register("cursos")}>
-            <option value="">---</option>
-            <option value="Matematica">Matematica</option>
-            <option value="Lenguaje">Lenguaje</option>
-            <option value="Fisica">Fisica</option>
-          </select>
+        <div className="popUp-add__subcontent">
+          <div className="popUp-add__group">
+            <span>Curso</span>
+            <select className="popUp-add__select" {...register("course", { required: "Curso requerido" })}>
+              <option value="">Elegir curso</option>
+              <option value="Matematica">Matematica</option>
+              <option value="Lenguaje">Lenguaje</option>
+              <option value="Fisica">Fisica</option>
+            </select>
+            {errors.course && <span>{errors.course.message}</span>}
+          </div>
+          <div className="popUp-add__group popUp-add__group--upgrade">
+            <span>Grado-Sección-Nivel-Turno</span>
+            <select className="popUp-add__select popUp-add__select--upgrade" {...register("room", { required: "Salon requerido" })}>
+              <option value="">Elegir opcion</option>
+              <option value="3 - A - Primaria -Mañana">
+                3 - A - Primaria -Mañana
+              </option>
+              <option value="3 - B - Primaria -Mañana">
+                3 - B - Primaria -Mañana
+              </option>
+              <option value="3 - C - Primaria -Mañana">
+                3 - C - Primaria -Mañana
+              </option>
+            </select>
+            {errors.room && <span>{errors.room.message}</span>}
+          </div>
+          <p className="popUp-add__agregar" onClick={handleSubmit(handlEnlistar)}>
+            Agregar
+          </p>
         </div>
-        {/* <div>
-          <span>Grado/Sección/Nivel/Turno</span>
-          <select {...register("grado")}>
-            <option value="">---</option>
-            <option value="3° - A - Primaria - Mañana">
-              3° - A - Primaria - Mañana
-            </option>
-            <option value="3° - B - Primaria - Mañana">
-              3° - B - Primaria - Mañana
-            </option>
-            <option value="3° - C - Primaria - Mañana">
-              3° - C - Primaria - Mañana
-            </option>
-          </select>
-        </div> */}
-        <button type="button" onClick={handleSubmit(handlEnlistar)}>Agregar</button>
         <div className="teacher-add__courses">
-          <p>{selectedItems.length} cursos asignados</p>
-          <ul className="teacher-add__list">
-           {selectedItems && (
-            <div>
-              <p>Curso seleccionado: {selectedItems}</p>
+          <span className="">{selectedItems.length} cursos asignados</span >
+          {selectedItems.length > 0 && (
+            <div className="teacher-add__list">
+              <ul>
+                {selectedItems.map((courses, index) => (
+                  <li className="teacher-add__item" key={index}>
+                    {`${courses.course} - ${courses.room}`}
+                    <svg
+                      onClick={() => handleDelete(index)}
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-square-x"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
+                      <path d="M9 9l6 6m0 -6l-6 6"></path>
+                    </svg>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
-          </ul>
         </div>
       </div>
       <div className="popUp-add__buttons">
@@ -151,8 +156,13 @@ export const Content = ({onClose, data, viewingIndex,onAssign }: props) => {
         >
           Cancelar
         </button>
-        <button type="button" onClick={handleAgregar} className="popUp-add__button">
-          Agregar
+        <button
+          type="button"
+          onClick={handleAgregar}
+          className="popUp-add__button"
+          disabled={selectedItems.length === 0}
+        >
+          Guardar
         </button>
       </div>
     </form>

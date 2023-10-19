@@ -2,6 +2,8 @@ import {useEffect } from 'react'
 import {useState} from 'react';
 import { Tabla } from './Tabla';
 import { FormValues, Formulario } from './Formulario';
+import { Tab } from './Tab';
+import { ContentComponent } from './ContentComponent';
 
 
 
@@ -67,7 +69,17 @@ export const ReportesPage = () => {
     setViewingIndex(null);
   };
 
-  const assignItem = (index: number, countries: string[]) => {
+  // const assignItem = (index: number, countries: string[]) => {
+
+  //   const updatedData = [...data];
+  //   updatedData[index].countries = countries;
+  //   setData(updatedData); 
+
+  //   // Ahora puedes guardar los datos actualizados en el almacenamiento local
+  //   localStorage.setItem('practicando', JSON.stringify(updatedData));
+  // };
+
+  const assignItem = (index: number, countries: FormValues['countries']) => {
 
     const updatedData = [...data];
     updatedData[index].countries = countries;
@@ -77,10 +89,23 @@ export const ReportesPage = () => {
     localStorage.setItem('practicando', JSON.stringify(updatedData));
   };
 
+  const toggleHabilitar = (index: number) => {
+    const newData = [...data];
+    newData[index].estado = !newData[index].estado;
+    setData(newData);
   
+    // Actualiza en localStorage
+    localStorage.setItem('practicando', JSON.stringify(newData));
+  };
+  
+  const [selectedTab, setSelectedTab] = useState('Cursos');
+
+  const handleTabClick = (tabName:string) => {
+    setSelectedTab(tabName);
+  };
   return (
     <>
-    <div>
+    {/* <div>
       <h1>Tabla y Formulario</h1>
       {formOpen ? (
         <Formulario
@@ -97,8 +122,19 @@ export const ReportesPage = () => {
         editItem={editItem} 
         viewDetail={viewDetail}
         assignItem={assignItem}
+        toogleHabilitar={toggleHabilitar}
         />
       )}
+    </div> */}
+
+<div className='config'>
+      <ul className='config__links'>
+        <Tab tabName="Cursos" selectedTab={selectedTab} handleTabClick={handleTabClick} />
+        <Tab tabName="Salones" selectedTab={selectedTab} handleTabClick={handleTabClick} />
+      </ul>
+      <span className='config__indicator'></span>
+
+      <ContentComponent selectedTab={selectedTab} />
     </div>
     </>
   );
