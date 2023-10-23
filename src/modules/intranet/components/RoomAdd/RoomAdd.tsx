@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import './Room.scss';
 
 interface props {
   tooglePopUp: () => void;
@@ -7,11 +8,11 @@ type FormData = {
   name: string;
 };
 
-export const SectionAdd = ({ tooglePopUp }: props) => {
+export const RoomAdd = ({ tooglePopUp }: props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors,isValid },
     reset,
   } = useForm<FormData>();
 
@@ -25,8 +26,8 @@ export const SectionAdd = ({ tooglePopUp }: props) => {
   };
 
   return (
-    <form className="popUp-add__form" onSubmit={handleSubmit(onSubmit)}>
-      <div className="popUp-add__content">
+    <form className="popUp-form" onSubmit={handleSubmit(onSubmit)}>
+      <div className="popUp-form__content">
         <div>
           <span>Grado</span>
           <select name="year" id="year">
@@ -64,14 +65,14 @@ export const SectionAdd = ({ tooglePopUp }: props) => {
           </select>
         </div>
       </div>
-      <div className="popUp-add__buttons">
+      <div className="popUp-form__buttons">
         <button
-          className="popUp-add__button popUp-add__button--cancel"
+          className="popUp-form__button popUp-form__button--cancel"
           onClick={onCancel}
         >
           Cancelar
         </button>
-        <button type="submit" className="popUp-add__button">
+        <button type="submit" className="popUp-form__button" disabled={!isValid}>
           Agregar
         </button>
       </div>

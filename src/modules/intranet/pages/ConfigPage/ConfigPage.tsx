@@ -1,15 +1,13 @@
-import { useState } from 'react';
-import './ConfigPage.scss'
 import { CoursesList } from '../../sections/CoursesList/CoursesList';
 import { SectionsList } from '../../sections/SectionsList/SectionsList';
 import { ConfigMenu } from '../../components/ConfigMenu/ConfigMenu';
+import { useConfig } from './useConfig';
+import './ConfigPage.scss'
+
+
 export const ConfigPage = () => {
 
-  const [selectedTab, setSelectedTab] = useState('Cursos');
-
-  const handleTabClick = (tabName:string) => {
-    setSelectedTab(tabName);
-  };
+  const {selectedTab,handleTabClick} = useConfig();
 
   return (
     <div className='config'>
@@ -17,7 +15,7 @@ export const ConfigPage = () => {
         <ConfigMenu tabName="Cursos" selectedTab={selectedTab} handleTabClick={handleTabClick}/>
         <ConfigMenu tabName="Salones" selectedTab={selectedTab} handleTabClick={handleTabClick}/>
       </ul>
-      {/* <span className='config__indicator'></span> */}
+      <span className='config__bar'></span>
       {selectedTab === 'Cursos' && <CoursesList />}
       {selectedTab === 'Salones' && <SectionsList />}
     </div>

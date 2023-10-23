@@ -35,6 +35,12 @@
         border: 1px solid black;
         outline: none;
     }
+    &__error{
+        border:2px solid red;
+    }
+    &__alert{
+        color: red;
+    }
     &__login{
         width: 100%;
         display: flex;

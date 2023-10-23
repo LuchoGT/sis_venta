@@ -4,3 +4,16 @@ input:disabled {
     border: 1px solid #ddd; /* Agrega un borde gris */
     cursor: not-allowed; /* Cambia el cursor a "no permitido" */
   }
+
+.input-error {
+  border: 2px solid red; /* Borde rojo */
+  background-color: #ffe8e8; /* Fondo rojo claro */
+  color: red; /* Texto en rojo */
+}
+
+/* Estilos para los mensajes de error */
+.error {
+  color: red; /* Texto en rojo */
+  font-size: 14px; /* Tamaño de fuente */
+  margin-top: 5px; /* Espacio superior */
+}

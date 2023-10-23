@@ -27,7 +27,7 @@ export const useTable = () => {
     { title: "Nombre" },
     { title: "Cursos" },
     { title: "Habilitar" },
-    { title: "Estado" },
+    { title: "Acciones" },
   ];
 
 

@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import './CoursesAdd.scss'
 
 interface props {
   tooglePopUp: () => void;
@@ -7,11 +8,11 @@ type FormData = {
   name: string;
 };
 
-export const CourseAdd = ({ tooglePopUp }: props) => {
+export const CoursesAdd = ({ tooglePopUp }: props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors,isValid },
     reset,
   } = useForm<FormData>();
 
@@ -25,12 +26,12 @@ export const CourseAdd = ({ tooglePopUp }: props) => {
   };
 
   return (
-    <form className="popUp-add__form" onSubmit={handleSubmit(onSubmit)}>
-      <div className="popUp-add__content">
+    <form className="popUp-form" onSubmit={handleSubmit(onSubmit)}>
+      <div className="popUp-form__content">
         <label>Nombre</label>
         <input
           type="text"
-          className="popUp-add__input"
+          className="popUp-form__input"
           {...register("name", {
             required: {
               value: true,
@@ -40,15 +41,15 @@ export const CourseAdd = ({ tooglePopUp }: props) => {
         />
         {errors.name && <span>{errors.name.message}</span>}
       </div>
-      <div className="popUp-add__buttons">
+      <div className="popUp-form__buttons">
         <button
-          className="popUp-add__button popUp-add__button--cancel"
+          className="popUp-form__button popUp-form__button--cancel"
           onClick={onCancel}
         >
           Cancelar
         </button>
-        <button type="submit" className="popUp-add__button">
-          Agregar
+        <button type="submit" className="popUp-form__button" disabled={!isValid}>
+          Guardar 
         </button>
       </div>
     </form>

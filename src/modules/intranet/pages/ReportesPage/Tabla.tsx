@@ -10,8 +10,9 @@ interface TablaProps {
   viewDetail: (index: number) => void;
   assignItem: (index: number, countries: FormValues['countries']) => void; // Nueva prop para asignar un país
   toogleHabilitar:(index:number)=>void;
+  itemsPerPage: number;
 }
-export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabilitar}: TablaProps) => {
+export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabilitar,itemsPerPage}: TablaProps) => {
 
 
   const [showFormulario2, setShowFormulario2] = useState(false);
@@ -34,12 +35,55 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
     }else if(handler==='assignItem'){
       setSelectedRowIndex(index); // Guarda el índice seleccionado
       setShowFormulario2(true); // Abre Formulario2
+      setOpenIndex(null)
     }else if(handler==='Habilitar'){
       toogleHabilitar(index)
+
     }
   };
 
+  
+  const [page, setPage] = useState(1);
+  // const totalPages = Math.ceil(data.length / itemsPerPage);
+  // const startIndex = (page - 1) * itemsPerPage;
+  // const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+  // const visibleData = data.slice(startIndex, endIndex);
 
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+  const visibleData = data.slice(startIndex, endIndex);
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
+  
+  const handlePageClick = (pageNumber: number) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setPage(pageNumber);
+    }
+  };
+
+  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleDropdown = (index: number) => {
+    if (openIndex === index) {
+      setOpenIndex(null);
+    } else {
+      setOpenIndex(index);
+    }
+  };
   return (
     <div>
       <button onClick={openForm}>Abrir Formulario</button>
@@ -53,7 +97,7 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
           </tr>
         </thead>
         <tbody>
-          {data.map((item, index) => (
+          {visibleData.map((item, index) => (
             <tr key={index}>
               <td>{item.nombre}</td>
               <td>{item.apellido}</td>
@@ -71,6 +115,8 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
                       {option.label}
                     </button>
                   ))}
+                  isOpen={openIndex === index}
+                  onToggle={() => toggleDropdown(index)}
                 />
               </td>
               
@@ -78,7 +124,24 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
           ))}
         </tbody>
       </table>
-      {showFormulario2 && (
+      <div>
+        <button onClick={handlePrevPage} disabled={page === 1}>
+          Anterior
+        </button>
+        {pageNumbers.map((pageNumber) => (
+          <button
+            key={pageNumber}
+            onClick={() => handlePageClick(pageNumber)}
+            disabled={pageNumber === page}
+          >
+            {pageNumber}
+          </button>
+        ))}
+        <button onClick={handleNextPage} disabled={page === totalPages}>
+          Siguiente
+        </button>
+      </div>
+      // {showFormulario2 && (
         <Formulario2
           onClose={() => {
             setShowFormulario2(false);

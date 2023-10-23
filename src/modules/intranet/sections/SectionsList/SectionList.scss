@@ -1,3 +1,19 @@
-.hidden-sections{
-    display: none;
+@import '../../../../theme/variables/colors';
+
+.sectionList{
+    margin-top: 1rem;
+    &__container{
+        display: flex;
+        justify-content: flex-end;
+    }
+    &__button{
+        border-radius: .3rem;
+        color: $white;
+        padding: .5rem;
+        width: 7rem;
+        background: $button-add;
+        text-align: center;
+        cursor: pointer;
+       }
 }
+

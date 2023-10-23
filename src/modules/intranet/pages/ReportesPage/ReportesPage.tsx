@@ -103,10 +103,33 @@ export const ReportesPage = () => {
   const handleTabClick = (tabName:string) => {
     setSelectedTab(tabName);
   };
+
+  const itemsPerPage = 3; 
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<FormValues[]>([]);
+
+  const handleSearch = () => {
+    // Realiza la búsqueda en los datos
+    const results = data.filter(item =>
+      item.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.apellido.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setSearchResults(results);
+  };
   return (
     <>
-    {/* <div>
+    <div>
       <h1>Tabla y Formulario</h1>
+      <div>
+          <input
+            type="text"
+            placeholder="Buscar por nombre o apellido"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button onClick={handleSearch}>Buscar</button>
+        </div>
       {formOpen ? (
         <Formulario
           onSubmit={op}
@@ -117,17 +140,18 @@ export const ReportesPage = () => {
         />
       ) :(
         <Tabla 
-        data={data} 
+        data={searchQuery ? searchResults : data}
         openForm={() => setFormOpen(true)} 
         editItem={editItem} 
         viewDetail={viewDetail}
         assignItem={assignItem}
         toogleHabilitar={toggleHabilitar}
+        itemsPerPage={itemsPerPage} 
         />
       )}
-    </div> */}
+    </div>
 
-<div className='config'>
+{/* <div className='config'>
       <ul className='config__links'>
         <Tab tabName="Cursos" selectedTab={selectedTab} handleTabClick={handleTabClick} />
         <Tab tabName="Salones" selectedTab={selectedTab} handleTabClick={handleTabClick} />
@@ -135,7 +159,7 @@ export const ReportesPage = () => {
       <span className='config__indicator'></span>
 
       <ContentComponent selectedTab={selectedTab} />
-    </div>
+    </div> */}
     </>
   );
 }

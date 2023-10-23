@@ -1,14 +1,19 @@
-.courses{
-    &__add{
+@import '../../../../theme/variables/colors';
+
+.coursesList{
+    margin-top: 1rem;
+    &__container{
         display: flex;
         justify-content: flex-end;
-       div{
-        padding: .5rem;
-        background: red;
-       }
     }
+    &__button{
+        border-radius: .3rem;
+        color: $white;
+        padding: .5rem;
+        width: 7rem;
+        background: $button-add;
+        text-align: center;
+        cursor: pointer;
+       }
 }
 
-.hidden-courses{
-    display: none;
-}

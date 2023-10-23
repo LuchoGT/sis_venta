@@ -1,3 +1,4 @@
+
 interface props{
     tabName:string,
     selectedTab:string, 
@@ -7,10 +8,11 @@ interface props{
 export const ConfigMenu = ({ tabName, selectedTab, handleTabClick }:props) => {
   return (
     <li
-      className={`config__element ${selectedTab === tabName ? "active" : ""}`}
+      className={`config__element ${selectedTab === tabName ? "" : "config__disabled"}`}
       onClick={() => handleTabClick(tabName)}
     >
-      {tabName}
+       {tabName}
+      {selectedTab === tabName && <div className="config__indicator" />}
     </li>
   );
 };

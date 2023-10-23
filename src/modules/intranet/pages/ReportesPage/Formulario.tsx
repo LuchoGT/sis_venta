@@ -70,6 +70,7 @@ export const Formulario = ({
         <input
           {...register("nombre", { required: "Nombre requerido" })}
           disabled={viewingIndex !== null}
+          className={`input ${errors.nombre ? "input-error" : ""}`}
         />
         {errors.nombre && <span>{errors.nombre.message}</span>}
       </div>
@@ -78,6 +79,7 @@ export const Formulario = ({
         <input
           {...register("apellido", { required: "Apellido requerido" })}
           disabled={viewingIndex !== null}
+          className={`input ${errors.apellido ? "input-error" : ""}`}
         />
         {errors.apellido && <span>{errors.apellido.message}</span>}
       </div>

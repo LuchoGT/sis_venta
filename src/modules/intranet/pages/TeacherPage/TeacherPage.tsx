@@ -1,10 +1,9 @@
 import { Form } from "../../sections/Form/Form";
-import { PopUp } from "../../sections/PopupAdd/PopUp";
 import { TeacherList } from "../../sections/TeacherList/TeacherList";
 import { useTeacher } from "./useTeacher";
+import { PopupTemplate } from "../../template/PopupTemplate/PopupTemplate";
+import { TeacherCourseAdd } from "../../components/TeacherCourseAdd/TeacherCourseAdd";
 import "./TeacherPage.scss";
-import { PopupAdd } from "../../sections/PopupAdd/PopupAdd";
-import { Content } from "../../sections/PopupAdd/Content";
 
 export const TeacherPage = () => {
   const {
@@ -21,17 +20,15 @@ export const TeacherPage = () => {
     closeForm,
     data,
     editingIndex,
-    ClosePop
+    ClosePop,
   } = useTeacher();
-
-  
 
 
 
   return (
     <>
       <div className="teacher">
-        {!openView ?(
+        {!openView ? (
           <TeacherList
             toggleOpenView={toggleOpenView}
             tooglePopUpView={tooglePopUpView}
@@ -40,35 +37,28 @@ export const TeacherPage = () => {
             viewDetail={viewDetail}
             viewNameCourses={viewNameCourses}
           />
-        ):(
+        ) : (
           <Form
-          onSubmit={handleAdd}
-          onClose={closeForm}
-          data={data}
-          editingIndex={editingIndex}
-          viewingIndex={viewingIndex}
+            onSubmit={handleAdd}
+            onClose={closeForm}
+            data={data}
+            editingIndex={editingIndex}
+            viewingIndex={viewingIndex}
+            // Mostrar resultados de búsqueda si searchQuery no está vacío
           />
-        )
-        }
-        {
-          isPopUpView && 
-          <PopupAdd
-            tooglePopUp={tooglePopUpView}
-            title="Asignación de curso"
-            // onClose={ClosePop}  
-            // viewingIndex={viewingIndex}
-            // data={data}
-            // assignItem={assignItem}
-          >
-             <Content
-          onClose={ClosePop}
-          data={data}
-          viewingIndex={viewingIndex}
-          onAssign={(index, cursos) => {
-            assignItem(index, cursos); // Llama a la función para asignar el país
-          }}/>
-          </PopupAdd>
-        }
+        )}
+        {isPopUpView && (
+          <PopupTemplate tooglePopUp={tooglePopUpView} title="Asignación de curso">
+            <TeacherCourseAdd
+              onClose={ClosePop}
+              data={data}
+              viewingIndex={viewingIndex}
+              onAssign={(index, cursos) => {
+                assignItem(index, cursos); // Llama a la función para asignar el país
+              }}
+            />
+          </PopupTemplate>
+        )}
       </div>
     </>
   );

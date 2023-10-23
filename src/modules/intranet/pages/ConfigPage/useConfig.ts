@@ -2,14 +2,14 @@ import { useState } from "react"
 
 export const useConfig = () => {
 
-    const [isOpenList, setIsOpenList] = useState<boolean>(true);
+  const [selectedTab, setSelectedTab] = useState('Cursos');
 
-    const toogleOpenList=()=>{
-      setIsOpenList(!isOpenList);
-    }
+  const handleTabClick = (tabName:string) => {
+    setSelectedTab(tabName);
+  };
    
   return {
-    isOpenList,
-    toogleOpenList
+    selectedTab,
+    handleTabClick
   }
 }

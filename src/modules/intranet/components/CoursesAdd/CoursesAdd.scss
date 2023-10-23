@@ -1,0 +1,68 @@
+@import "../../../../theme/variables/colors";
+
+
+.popUp-form{
+    padding: .5rem 1rem;
+    &__content {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        margin-top: 1rem;
+        color: black;
+      }
+      &__subcontent{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      &__group{
+        width: 10rem;
+        &--upgrade{
+            width: 15rem;
+        }
+      }
+      &__select{
+        width: 10rem;
+        padding: .5rem;
+        border-radius: .5rem;
+        &--upgrade{
+            width: 15rem;
+        }
+      }
+      &__agregar{
+        width: 100%;
+        cursor: pointer;
+      }
+      &__input {
+        padding: 0.5rem;
+        outline: none;
+        border-radius: 0.3rem;
+        border: 1px solid black;
+      }
+      &__buttons {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+      }
+      &__button {
+        padding: 0.5rem 3rem;
+        background: $button-add;
+        border: 1px solid $button-add;
+        box-shadow: none;
+        border-radius: 0.5rem;
+        color: $white;
+        font-weight: 600;
+        cursor: pointer;
+        &--cancel {
+          background: $white;
+          margin-right: 1rem;
+          color: $button-add;
+        }
+        &:disabled {
+          opacity: .5;
+        }
+      }
+}

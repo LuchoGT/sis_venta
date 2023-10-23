@@ -1,0 +1,109 @@
+@import "../../../../theme/variables/colors";
+
+
+.assign-add{
+    padding: 0 1rem;
+    &--title{
+        color: #606060;
+        font-weight: 600;
+        line-height: 30px;
+
+    }
+    &__content {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        margin-top: 1rem;
+        color: black;
+      }
+      &__subcontent{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+      &__group{
+        width: 10rem;
+        &--upgrade{
+            width: 15rem;
+        }
+      }
+      &__select{
+        width: 10rem;
+        padding: .5rem;
+        border-radius: .5rem;
+        margin-top: .5rem;
+        &--upgrade{
+            width: 15rem;
+        }
+      }
+      &__agregar{
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        p{
+            font-weight: 600;
+            color: #1885E9;
+            border-bottom: 1px solid #1885E9;
+            cursor: pointer;
+        }
+      }
+      &__input {
+        padding: 0.5rem;
+        outline: none;
+        border-radius: 0.3rem;
+        border: 1px solid black;
+      }
+
+      &__courses{
+        margin-top: .5rem;
+        height: 15rem;
+        border: 2px solid #0D3152;
+        border-radius: 4px;
+        padding: .5rem;
+        span{
+            color: #C4C4C4;
+        }
+    }
+
+    &__list{
+        display: flex;
+        margin-top: 13px;
+        flex-wrap: wrap;
+        gap: 7px;
+    }
+    &__item{
+        background: #5DAD6529;
+        display: flex;
+        align-items: center;
+        height: 42px;
+        border-radius: 20px;
+        padding: 10px 20px;
+    }
+
+      &__buttons {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+      }
+      &__button {
+        padding: 0.5rem 3rem;
+        background: $button-add;
+        border: 1px solid $button-add;
+        box-shadow: none;
+        border-radius: 0.5rem;
+        color: $white;
+        font-weight: 600;
+        cursor: pointer;
+        &--cancel {
+          background: $white;
+          margin-right: 1rem;
+          color: $button-add;
+        }
+        &:disabled {
+          opacity: .5;
+        }
+      }
+}

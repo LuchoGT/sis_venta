@@ -1,20 +1,18 @@
-import { useForm } from "react-hook-form";
-import "./PopupAdd.scss";
+import './PopupTemplate.scss'
 
 interface props {
-  tooglePopUp:()=>void;
+  tooglePopUp: () => void;
   title: string;
-  children: JSX.Element
+  children: JSX.Element;
 }
 
+export const PopupTemplate = ({ title, tooglePopUp, children }: props) => {
 
-export const PopupAdd = ({  title,tooglePopUp,children }: props) => {
- 
   return (
-    <div className="popUp-add">
-      <div className="popUp-add__container">
-        <div className="popUp-add__head">
-          <p className="popUp-add__title">{title}</p>
+    <div className="popUp">
+      <div className="popUp__container">
+        <div className="popUp__head">
+          <p className="popUp__title">{title}</p>
           <svg
             onClick={tooglePopUp}
             xmlns="http://www.w3.org/2000/svg"

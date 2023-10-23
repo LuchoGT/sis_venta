@@ -18,6 +18,7 @@ export const Form = ({
   editingIndex,
   viewingIndex,
 }: props) => {
+  
   const {
     handleSubmit,
     register,
@@ -69,12 +70,12 @@ export const Form = ({
           <label className="teacher-add__name">Nombre</label>
           <input
             type="text"
-            className="teacher-add__input"
+            className={`teacher-add__input ${errors.nombres ? "teacher-add__error" : ""}`}
             placeholder="Escribir nombre"
             disabled={viewingIndex !== null}
             {...register("nombres", { required: true })}
           />
-          {errors.nombres && <span>Este campo es obligatorio</span>}
+          {errors.nombres && <span className="teacher-add__alert">Este campo es obligatorio</span>}
         </div>
         <div className="teacher-add__content">
           <label className="teacher-add__name">Apellidos</label>

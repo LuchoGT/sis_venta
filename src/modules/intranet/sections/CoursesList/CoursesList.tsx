@@ -1,32 +1,23 @@
-import { useState } from "react";
-import './CoursesList.scss'
-import { PopupAdd } from "../PopupAdd/PopupAdd";
-import { CourseAdd } from "./CourseAdd";
-
-
+import { PopupTemplate } from "../../template/PopupTemplate/PopupTemplate";
+import { CoursesAdd } from "../../components/CoursesAdd/CoursesAdd";
+import "./CoursesList.scss";
+import { usePopup } from "../../hooks/usePopup";
 
 export const CoursesList = () => {
+  const { isOpenPopUp, tooglePopUp } = usePopup();
 
-  const [isOpenPopUp, setIsOpenPopUp] = useState<boolean>(false)
-  
-  const tooglePopUp=()=>{
-    setIsOpenPopUp(!isOpenPopUp);
-  }
   return (
     <>
-      <div className='courses'>
-          <div className='courses__add'>
-              <div onClick={tooglePopUp}>Agregar</div>
-          </div>
-        <p>Estas en Cursos</p>
+      <div className="coursesList">
+        <div className="coursesList__container">
+          <div onClick={tooglePopUp} className="coursesList__button">Agregar</div>
+        </div>
       </div>
-      {
-      isOpenPopUp && 
-      <PopupAdd tooglePopUp={tooglePopUp} title="Agregar curso">
-        <CourseAdd tooglePopUp={tooglePopUp}/>
-      </PopupAdd>
-      }
+      {isOpenPopUp && (
+        <PopupTemplate tooglePopUp={tooglePopUp} title="Agregar curso">
+          <CoursesAdd tooglePopUp={tooglePopUp} />
+        </PopupTemplate>
+      )}
     </>
-    
-  )
-}
+  );
+};

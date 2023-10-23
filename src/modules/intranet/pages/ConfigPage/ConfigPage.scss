@@ -1,28 +1,46 @@
-.config{
-    background: #FFF;
-    padding: 30px 20px;
-    margin: 30px 20px;
+.config {
+  background: #fff;
+  padding: 30px 20px;
+  margin: 30px 20px;
+  position: relative;
+
+  &__links {
+    display: flex;
+  }
+
+  &__element {
     position: relative;
+    z-index: 1;
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px 30px;
+    font-weight: 600;
+    font-size: 2rem;
+  }
 
-    &__links{
-        display: flex;
-    }
+  &__disabled{
+    color: #D1D3D5;
+  }
 
-    &__element{
-        position: relative;
-        z-index: 1;
-        cursor: pointer;
-        display: inline-block;
-        padding: 15px 30px;
-    }
+  &__bar {
+    position: relative;
+    top: -6px;
+    right: 0px;
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: #d1d3d5;
+  }
 
-    &__indicator{
-        position:relative;
-        top: -3px;
-        right: 0px;
-        display: block;
-        width: 100%;
-        height: 3px;
-        background: green;
-    }
+  &__indicator{
+    background-color: #0B80A5;
+    height: 6px; 
+    width: 100%; 
+    position: absolute;
+    bottom: 0; 
+    left: 0; 
+    transition: all 0.3s; 
+  }
 }
+
+

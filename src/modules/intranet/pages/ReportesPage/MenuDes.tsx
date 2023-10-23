@@ -1,20 +1,16 @@
-import { useState } from "react";
 
 interface DropdownMenuProps {
     items: React.ReactNode[];
     label: string;
+    isOpen:boolean;
+    onToggle:()=>void;
   }
 
-export const MenuDes = ({items,label}:DropdownMenuProps) => {
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleDropdown = () => {
-      setIsOpen(!isOpen);
-    };
+export const MenuDes = ({items,label,isOpen,onToggle}:DropdownMenuProps) => {
+  
   return (
     <div className="dropdown">
-    <button className="dropbtn" onClick={toggleDropdown}>
+    <button className="dropbtn" onClick={onToggle}>
       {label}
     </button>
     {isOpen && <div className="dropdown-content">{items}</div>}
