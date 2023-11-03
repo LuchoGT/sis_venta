@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormPruebas } from "@/interfaces/interfaces";
 import "./Form.scss";
+import { InputField } from "../../components/InputField/InputField";
 
 interface props {
   onSubmit: SubmitHandler<FormPruebas>;
@@ -24,7 +25,7 @@ export const Form = ({
     register,
     formState: { errors },
     setValue,
-  } = useForm<FormPruebas>();
+  } = useForm();
 
   const handleFormSubmit = (formData: FormPruebas) => {
     onSubmit(formData);
@@ -66,7 +67,7 @@ export const Form = ({
         className="teacher-add__form"
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <div className="teacher-add__content">
+        {/* <div className="teacher-add__content">
           <label className="teacher-add__name">Nombre</label>
           <input
             type="text"
@@ -120,7 +121,12 @@ export const Form = ({
             {...register("correo", { required: true })}
           />
           {errors.correo && <span>Este campo es obligatorio</span>}
-        </div>
+        </div> */}
+        <InputField type="text" label="Nombre" name="nombres" register={register} error={errors.nombres} disabled={viewingIndex!==null} />
+        <InputField type="text" label="Apellido" name="apellidos" register={register} error={errors.apellidos} disabled={viewingIndex!==null}/>
+        <InputField type="text" label="DNI" name="dni" register={register} error={errors.dni} disabled={viewingIndex!==null} className="teacher-add__content--min" />
+        <InputField type="text" label="Celular" name="celular" register={register} error={errors.celular} disabled={viewingIndex!==null} className="teacher-add__content--min"/>
+        <InputField type="email"  label="Correo" name="correo" register={register} error={errors.correo} disabled={viewingIndex!==null} pattern="/^[a-z0-9._%+-]+@[a-z0-9-]+\.[a-z]{2,4}$/"/>
         {viewingIndex !== null  && data[viewingIndex].cursos ? (
           <div className="teacher-add__content teacher-add__content--courses">
             <label className="teacher-add__name">Cursos Asignados</label>
@@ -135,7 +141,7 @@ export const Form = ({
         ) : (
           <div className="teacher-add__login">
             <div className="teacher-add__separate"></div>
-            <div className="teacher-add__content">
+            {/* <div className="teacher-add__content">
               <label className="teacher-add__name">Usuario</label>
               <input
                 className="teacher-add__input"
@@ -156,7 +162,9 @@ export const Form = ({
                 {...register("password", { required: true })}
               />
               {errors.password && <span>Este campo es obligatorio</span>}
-            </div>
+            </div> */}
+            <InputField type="text" label="Usuario" name="usuario" register={register} error={errors.usuario} disabled={viewingIndex!==null}/>
+            <InputField type="password" label="Password" name="password" register={register} error={errors.password} disabled={viewingIndex!==null}/>
           </div>
         )}
         <div className="teacher-add__buttons">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormValues } from "./Formulario";
+import { FormValues, PruebasTable } from "./Formulario";
 import { MenuDes } from "./MenuDes";
 import { Formulario2 } from "./Formulario2";
 
@@ -11,8 +11,10 @@ interface TablaProps {
   assignItem: (index: number, countries: FormValues['countries']) => void; // Nueva prop para asignar un país
   toogleHabilitar:(index:number)=>void;
   itemsPerPage: number;
+  header:Array<string>;
+  itemsTable:PruebasTable
 }
-export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabilitar,itemsPerPage}: TablaProps) => {
+export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabilitar,itemsPerPage,header,itemsTable}: TablaProps) => {
 
 
   const [showFormulario2, setShowFormulario2] = useState(false);
@@ -49,31 +51,31 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
   // const endIndex = Math.min(startIndex + itemsPerPage, data.length);
   // const visibleData = data.slice(startIndex, endIndex);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, data.length);
-  const visibleData = data.slice(startIndex, endIndex);
+  // const totalPages = Math.ceil(data.length / itemsPerPage);
+  // const startIndex = (page - 1) * itemsPerPage;
+  // const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+  // const visibleData = data.slice(startIndex, endIndex);
 
-  const handlePrevPage = () => {
-    if (page > 1) {
-      setPage(page - 1);
-    }
-  };
+  // const handlePrevPage = () => {
+  //   if (page > 1) {
+  //     setPage(page - 1);
+  //   }
+  // };
 
-  const handleNextPage = () => {
-    if (page < totalPages) {
-      setPage(page + 1);
-    }
-  };
+  // const handleNextPage = () => {
+  //   if (page < totalPages) {
+  //     setPage(page + 1);
+  //   }
+  // };
 
   
-  const handlePageClick = (pageNumber: number) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setPage(pageNumber);
-    }
-  };
+  // const handlePageClick = (pageNumber: number) => {
+  //   if (pageNumber >= 1 && pageNumber <= totalPages) {
+  //     setPage(pageNumber);
+  //   }
+  // };
 
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+  // const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -84,27 +86,44 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
       setOpenIndex(index);
     }
   };
+
+
+  // const combinedData = data.map((dataItem) => ({
+  //   ...dataItem,
+  //   ...itemsTable, // Fusiona los datos específicos de 'items' con 'data'
+  // }));
+
+  // console.log(combinedData);
+  
+  const mergedData = data.map((dataItem) => ({
+    ...dataItem,
+    ...itemsTable.items[0], // Aquí asumimos que los datos de items se corresponden con los datos de data
+  }));
   return (
     <div>
       <button onClick={openForm}>Abrir Formulario</button>
       <table>
         <thead>
           <tr>
-            <th>Nombre</th>
+          {header.map((item, index) => (
+          <th key={index}>{item}</th>
+           ))}
+            {/* <th>Nombre</th>
             <th>Apellido</th>
             <th>Estado</th>
-            <th>Acciones</th>
+            <th>Acciones</th> */}
           </tr>
         </thead>
         <tbody>
-          {visibleData.map((item, index) => (
+          {mergedData.map((item, index) => (
             <tr key={index}>
-              <td>{item.nombre}</td>
+              {/* <td>{item.nombre}</td>
               <td>{item.apellido}</td>
               <td>
               {item.estado ? 'Deshabilitado' : 'Habilitado'}
-              </td>
-              <td>
+              </td> */}
+              <td>{item.nombre}</td>
+              {/* <td>
               <MenuDes
                   label="Acciones"
                   items={dropdownOptions.map(option => (
@@ -118,13 +137,14 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
                   isOpen={openIndex === index}
                   onToggle={() => toggleDropdown(index)}
                 />
-              </td>
+              </td> */}
               
             </tr>
           ))}
+
         </tbody>
       </table>
-      <div>
+      {/* <div>
         <button onClick={handlePrevPage} disabled={page === 1}>
           Anterior
         </button>
@@ -140,8 +160,8 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
         <button onClick={handleNextPage} disabled={page === totalPages}>
           Siguiente
         </button>
-      </div>
-      // {showFormulario2 && (
+      </div> */}
+      {/* {showFormulario2 && (
         <Formulario2
           onClose={() => {
             setShowFormulario2(false);
@@ -153,7 +173,7 @@ export const Tabla = ({data, openForm, editItem,viewDetail,assignItem,toogleHabi
           selectedRowIndex={selectedRowIndex}
           data={data} // Pasa los datos a Formulario2
         />
-      )}
+      )} */}
     </div>
   );
 };

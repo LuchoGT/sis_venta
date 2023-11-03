@@ -50,27 +50,30 @@ export const TeacherCourseAdd = ({ onClose, data, viewingIndex, onAssign }: prop
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       // Asegúrate de que selectedRowIndex sea válido antes de intentar acceder a los países
-      if (viewingIndex !== null) {
-        // Verifica si los países están definidos antes de intentar acceder a su longitud
-        if (parsedData[viewingIndex]?.cursos) {
-          setSelectedItems(parsedData[viewingIndex].cursos);
-        }
+      // if (viewingIndex !== null) {
+      //   // Verifica si los países están definidos antes de intentar acceder a su longitud
+      //   if (parsedData[viewingIndex]?.cursos) {
+      //     setSelectedItems(parsedData[viewingIndex].cursos);
+      //   }
+      // }
+      if (viewingIndex !== null && parsedData.items[viewingIndex]?.cursos) {
+        setSelectedItems(parsedData.items[viewingIndex].cursos);
       }
     }
   }, [viewingIndex]);
   const selectedData = viewingIndex !== null ? data[viewingIndex] : null;
 
-  const handleDelete = (index: number) => {
-    const updatedItems = [...selectedItems];
-    updatedItems.splice(index, 1);
-    setSelectedItems(updatedItems);
+  // const handleDelete = (index: number) => {
+  //   const updatedItems = [...selectedItems];
+  //   updatedItems.splice(index, 1);
+  //   setSelectedItems(updatedItems);
 
-    // Actualizar el localStorage después de eliminar el elemento
-    // localStorage.setItem("practicando", JSON.stringify(updatedItems));
-    const updatedData = [...data];
-    updatedData[viewingIndex].cursos = updatedItems;
-    localStorage.setItem("teacherList", JSON.stringify(updatedData));
-  };
+  //   // Actualizar el localStorage después de eliminar el elemento
+  //   // localStorage.setItem("practicando", JSON.stringify(updatedItems));
+  //   const updatedData = [...data];
+  //   updatedData[viewingIndex].cursos = updatedItems;
+  //   localStorage.setItem("teacherList", JSON.stringify(updatedData));
+  // };
   return (
     <form className="assign-add">
       <div className="assign-add__content">
@@ -125,7 +128,7 @@ export const TeacherCourseAdd = ({ onClose, data, viewingIndex, onAssign }: prop
                 {selectedItems.map((courses, index) => (
                   <li className="assign-add__item" key={index}>
                     {`${courses.course} - ${courses.room}`}
-                    <svg
+                    {/* <svg
                       onClick={() => handleDelete(index)}
                       xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-square-x"
@@ -141,7 +144,7 @@ export const TeacherCourseAdd = ({ onClose, data, viewingIndex, onAssign }: prop
                       <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                       <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z"></path>
                       <path d="M9 9l6 6m0 -6l-6 6"></path>
-                    </svg>
+                    </svg> */}
                   </li>
                 ))}
               </ul>

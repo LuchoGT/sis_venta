@@ -2,8 +2,9 @@ import {useEffect } from 'react'
 import {useState} from 'react';
 import { Tabla } from './Tabla';
 import { FormValues, Formulario } from './Formulario';
-import { Tab } from './Tab';
-import { ContentComponent } from './ContentComponent';
+import { usePruebas } from './usePruebas';
+import { Practica } from './Practica';
+import { Practica2 } from './Practica2';
 
 
 
@@ -11,16 +12,13 @@ import { ContentComponent } from './ContentComponent';
 export const ReportesPage = () => {
 
 
-  //prac 2 forma 
 
   const [formOpen, setFormOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [viewingIndex, setViewingIndex] = useState<number | null>(null);
   
-  const [data, setData] = useState<FormValues[]>(()=>{
-    const savedData = localStorage.getItem('practicando');
-    return savedData ? JSON.parse(savedData) : [];
-  });
+  const {header,data,setData} = usePruebas();
+
 
   const op = (formData: FormValues) => {
     if (editingIndex !== null) {
@@ -69,15 +67,6 @@ export const ReportesPage = () => {
     setViewingIndex(null);
   };
 
-  // const assignItem = (index: number, countries: string[]) => {
-
-  //   const updatedData = [...data];
-  //   updatedData[index].countries = countries;
-  //   setData(updatedData); 
-
-  //   // Ahora puedes guardar los datos actualizados en el almacenamiento local
-  //   localStorage.setItem('practicando', JSON.stringify(updatedData));
-  // };
 
   const assignItem = (index: number, countries: FormValues['countries']) => {
 
@@ -117,9 +106,11 @@ export const ReportesPage = () => {
     );
     setSearchResults(results);
   };
+
+
   return (
-    <>
-    <div>
+      <>
+        {/* <div>
       <h1>Tabla y Formulario</h1>
       <div>
           <input
@@ -147,9 +138,14 @@ export const ReportesPage = () => {
         assignItem={assignItem}
         toogleHabilitar={toggleHabilitar}
         itemsPerPage={itemsPerPage} 
+        header={header}
         />
       )}
-    </div>
+    </div> */}
+
+    {/* <Tabla
+        header={header2}
+    /> */}
 
 {/* <div className='config'>
       <ul className='config__links'>
@@ -160,6 +156,10 @@ export const ReportesPage = () => {
 
       <ContentComponent selectedTab={selectedTab} />
     </div> */}
-    </>
+    <Practica/>
+    <p>------------------------------------</p>
+    <Practica2/>
+      </>
+   
   );
 }

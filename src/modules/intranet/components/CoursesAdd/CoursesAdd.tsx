@@ -1,23 +1,23 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import './CoursesAdd.scss'
+import { FormCourses } from "@/interfaces/interfaces";
 
 interface props {
   tooglePopUp: () => void;
+  onFormSubmit: (data:FormCourses)=>void;
 }
-type FormData = {
-  name: string;
-};
 
-export const CoursesAdd = ({ tooglePopUp }: props) => {
+
+export const CoursesAdd = ({ tooglePopUp,onFormSubmit }: props) => {
   const {
     register,
     handleSubmit,
     formState: { errors,isValid },
     reset,
-  } = useForm<FormData>();
+  } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const handleForSubmit = (formData:FormCourses) => {
+    onFormSubmit(formData);
   };
 
   const onCancel = () => {
@@ -26,20 +26,20 @@ export const CoursesAdd = ({ tooglePopUp }: props) => {
   };
 
   return (
-    <form className="popUp-form" onSubmit={handleSubmit(onSubmit)}>
+    <form className="popUp-form" onSubmit={handleSubmit(handleForSubmit)}>
       <div className="popUp-form__content">
         <label>Nombre</label>
         <input
           type="text"
           className="popUp-form__input"
-          {...register("name", {
+          {...register("nombres", {
             required: {
               value: true,
-              message: "Nombre es requerido",
+              message: "nombre es requerido",
             },
           })}
         />
-        {errors.name && <span>{errors.name.message}</span>}
+        {errors.nombres && <span>{errors.nombres.message}</span>}
       </div>
       <div className="popUp-form__buttons">
         <button

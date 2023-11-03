@@ -1,21 +1,23 @@
-import { FormPruebas } from '@/interfaces/interfaces';
+import { FormPruebas, ItemsTable } from '@/interfaces/interfaces';
 import { ButtonAdd } from '../../components/ButtonAdd/ButtonAdd';
 import { ButtonSearch } from '../../components/ButtonSearch/ButtonSearch';
 import { Table } from '../../components/Table/Table';
 import './TeacherList.scss';
 import { useState,ChangeEvent } from 'react';
+import { useTeacherList } from './useTeacherList';
 
 
 interface props{
-  data: FormPruebas[];
+  data: ItemsTable;
   toggleOpenView:()=>void,
   tooglePopUpView:()=>void,
   editItem: (index: number) => void;
   viewDetail: (index: number) => void;
   viewNameCourses: (index: number) => void;
+  header:Array<string>
 }
 
-export const TeacherList = ({viewNameCourses,editItem,toggleOpenView,data,viewDetail,tooglePopUpView}:props) => {
+export const TeacherList = ({header,viewNameCourses,editItem,toggleOpenView,data,viewDetail,tooglePopUpView}:props) => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<FormPruebas[]>([]);
@@ -32,6 +34,8 @@ export const TeacherList = ({viewNameCourses,editItem,toggleOpenView,data,viewDe
     setSearchResults(results);
   };
 
+  const fieldsToShow = ["nombres","apellidos"];
+
   return (
     <div className="teacher-list">
       <h1 className="teacher-list__title">Docentes</h1>
@@ -45,11 +49,14 @@ export const TeacherList = ({viewNameCourses,editItem,toggleOpenView,data,viewDe
           title='Agregar docente'/>
       </div>
       <Table
-        data={searchQuery ? searchResults : data}
+        // data={searchQuery ? searchResults : data}
+        data={data}
         editItem={editItem}
         viewDetail={viewDetail}
         tooglePopUpView={tooglePopUpView}
         viewNameCourses={viewNameCourses}
+        header={header}
+        fields={fieldsToShow} 
       />
     </div>
   );

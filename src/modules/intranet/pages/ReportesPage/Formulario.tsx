@@ -6,20 +6,25 @@ interface FormularioProps {
   onSubmit: SubmitHandler<FormValues>;
   onClose: () => void;
   editingIndex: number | null;
-  data: FormValues[];
+  // data: FormValues[];
+  data:PruebasTable[]
   viewingIndex: number | null;
 }
 
 export interface FormValues {
   nombre: string;
   apellido: string;
-  countries: Countries[];
+  countries?: Countries[];
   estado:boolean;
 }
 
 export interface Countries {
   departamento: string;
   distrito:string;
+}
+
+export interface PruebasTable{
+  items: FormValues[],
 }
 
 export const Formulario = ({
@@ -45,16 +50,16 @@ export const Formulario = ({
   useEffect(() => {
     //cuando se va editar
     if (editingIndex !== null) {
-      const itemToEdit = data[editingIndex];
+      const itemToEdit = data[editingIndex].items;
       setValue("nombre", itemToEdit.nombre);
       setValue("apellido", itemToEdit.apellido);
-      setValue("countries", itemToEdit.countries);
+      // setValue("countries", itemToEdit.countries);
       //cuando se mostrar el detalle
     } else if (viewingIndex !== null) {
-      const itemToView = data[viewingIndex];
+      const itemToView = data[viewingIndex].items;
       setValue("nombre", itemToView.nombre);
       setValue("apellido", itemToView.apellido);
-      setValue("countries", itemToView.countries);
+      // setValue("countries", itemToView.countries);
     }
   }, [editingIndex, data, viewingIndex]);
 
@@ -92,7 +97,7 @@ export const Formulario = ({
           />
         </div>
       )} */}
-      {viewingIndex !== null && data[viewingIndex].countries
+      {/* {viewingIndex !== null && data[viewingIndex].countries
       ?
       (
         <div>
@@ -112,9 +117,7 @@ export const Formulario = ({
         </div>
       )
     
-    }
-
-
+    } */}
       <div>
         {viewingIndex !== null ? (
           <button type="button" onClick={onClose}>

@@ -1,4 +1,4 @@
-import { FormPruebas } from "@/interfaces/interfaces";
+import { FormPruebas, ItemsTable } from "@/interfaces/interfaces";
 import { useState,useEffect } from "react";
 
 export const useTeacher = () => {
@@ -21,10 +21,10 @@ export const useTeacher = () => {
 
   //LOGICA PARA ALMACENAR EN LOCALSTORAGE EN LA VARIABLE data 
 
-  const [data, setData] = useState<FormPruebas[]>(()=>{
-    const savedData = localStorage.getItem('teacherList');
-    return savedData ? JSON.parse(savedData) : [];
-  });
+  // const [data, setData] = useState<FormPruebas[]>(()=>{
+  //   const savedData = localStorage.getItem('teacherList');
+  //   return savedData ? JSON.parse(savedData) : [];
+  // });
 
   //CREACION VARIABLE PARA EDITAR
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
@@ -33,28 +33,43 @@ export const useTeacher = () => {
   const [viewingIndex, setViewingIndex] = useState<number | null>(null);
 
   //FUNCION PARA AGREGAR
-  const handleAdd = (formData: FormPruebas) => {
-    // setData([...data, formData]);
-    // const newData = [...data, formData];
-    // setData(newData);
-    // localStorage.setItem('teacherList', JSON.stringify(newData));
-    // toggleOpenView()
+  // const handleAdd = (formData: FormPruebas) => {
+  //   // setData([...data, formData]);
+  //   // const newData = [...data, formData];
+  //   // setData(newData);
+  //   // localStorage.setItem('teacherList', JSON.stringify(newData));
+  //   // toggleOpenView()
 
+   
+  //   if (editingIndex !== null) {
+  //     // Si estamos editando, reemplazar el elemento existente
+  //     const newData = [...data];
+  //     newData[editingIndex] = formData;
+  //     setData(newData);
+  //     setEditingIndex(null);
+  //     // Actualizar en localStorage
+  //     localStorage.setItem('teacherList', JSON.stringify(newData));
+  //   } else {
+  //     // Si no estamos editando, agregar un nuevo elemento
+  //     setData([...data, formData]);
+
+  //     // Guardar en localStorage
+  //     localStorage.setItem('teacherList', JSON.stringify([...data, formData]));
+  //   }
+  //   toggleOpenView()
+  // };
+  const handleAdd = (formData: FormPruebas) => {
    
     if (editingIndex !== null) {
       // Si estamos editando, reemplazar el elemento existente
-      const newData = [...data];
-      newData[editingIndex] = formData;
-      setData(newData);
+      const newData = {...data};
+      newData.items[editingIndex] = formData;
+      updateData(newData);
       setEditingIndex(null);
-      // Actualizar en localStorage
-      localStorage.setItem('teacherList', JSON.stringify(newData));
     } else {
-      // Si no estamos editando, agregar un nuevo elemento
-      setData([...data, formData]);
-
-      // Guardar en localStorage
-      localStorage.setItem('teacherList', JSON.stringify([...data, formData]));
+      const newData = {...data};
+      newData.items.push(formData);
+      updateData(newData);
     }
     toggleOpenView()
   };
@@ -86,9 +101,15 @@ export const useTeacher = () => {
 
   const assignItem = (index: number, cursos: FormPruebas['cursos']) => {
    
-    const updatedData = [...data];
-    updatedData[index].cursos = cursos;
-    setData(updatedData); // Asumiendo que tienes un estado 'data' en Tabla
+    // const updatedData = [...data];
+    // updatedData[index].cursos = cursos;
+    // setData(updatedData); // Asumiendo que tienes un estado 'data' en Tabla
+    
+     // Clona la estructura de datos y accede a la propiedad 'items'
+     const updatedData = { ...data };
+     updatedData.items[index].cursos = cursos;
+     setData(updatedData);
+    
     // Ahora puedes guardar los datos actualizados en el almacenamiento local
     localStorage.setItem('teacherList', JSON.stringify(updatedData));
   };
@@ -104,6 +125,45 @@ export const useTeacher = () => {
     setViewingIndex(null);
   }
 
+  const [header] = useState<Array<string>>(["N°", "Nombre", "Cursos", "Habilitar", "Acciones"]);
+
+  const [data,setData] = useState<ItemsTable>(
+    {
+      items: [],
+      button: [
+        {
+          title: "Detalle",
+          handler: 'Detalle'
+      },
+      {
+          title: "Editar",
+          handler: 'Editar'
+      },
+      {
+          title: "Asignar curso",
+          handler: 'Asignar'
+      },
+      {
+          title: "Deshabilitar",
+          handler: 'Deshabilitar'
+      },
+      ]
+    }
+  );
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('teacherList');
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  }, []);
+
+  const updateData = (newData: ItemsTable ) => {
+    setData(newData);
+    localStorage.setItem('teacherList',JSON.stringify(newData));
+  };
+
+
   return {
     isPopUpView,
     tooglePopUpView,
@@ -118,6 +178,8 @@ export const useTeacher = () => {
     closeForm,
     data,
     editingIndex,
-    ClosePop
+    ClosePop,
+    header,
+    
   };
 };

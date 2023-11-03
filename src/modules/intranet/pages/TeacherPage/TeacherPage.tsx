@@ -21,6 +21,8 @@ export const TeacherPage = () => {
     data,
     editingIndex,
     ClosePop,
+    header,
+    items
   } = useTeacher();
 
 
@@ -36,12 +38,13 @@ export const TeacherPage = () => {
             editItem={editItem}
             viewDetail={viewDetail}
             viewNameCourses={viewNameCourses}
+            header={header}
           />
         ) : (
           <Form
             onSubmit={handleAdd}
             onClose={closeForm}
-            data={data}
+            data={data.items}
             editingIndex={editingIndex}
             viewingIndex={viewingIndex}
             // Mostrar resultados de búsqueda si searchQuery no está vacío
@@ -51,7 +54,7 @@ export const TeacherPage = () => {
           <PopupTemplate tooglePopUp={tooglePopUpView} title="Asignación de curso">
             <TeacherCourseAdd
               onClose={ClosePop}
-              data={data}
+              data={data.items}
               viewingIndex={viewingIndex}
               onAssign={(index, cursos) => {
                 assignItem(index, cursos); // Llama a la función para asignar el país

@@ -1,14 +1,12 @@
-import { Option } from "@/interfaces/interfaces";
+import { ItemsTable, Option } from "@/interfaces/interfaces";
 
-// type Option = {
-//     title: string;
-//     ct: string;
-//     sub?: string;
-// };
-
+interface props{
+  header:Array<string>;
+  // itemsTable:Array<ItemsTable>
+}
 
 
-export const useTable = () => {
+export const useTable = ({header,itemsTable}:props) => {
   // const [header, setHeader] = useState<Array<HeaderTable>>([])
 
   // const [teachers, setTeachers] = useState<Array<Teacher>>([])
@@ -22,13 +20,13 @@ export const useTable = () => {
 
   // const [courseOption, setCourseOption] = useState<Array<OptionCourse>>([])
 
-  const headers = [
-    { title: "No" },
-    { title: "Nombre" },
-    { title: "Cursos" },
-    { title: "Habilitar" },
-    { title: "Acciones" },
-  ];
+  // const headers = [
+  //   { title: "No" },
+  //   { title: "Nombre" },
+  //   { title: "Cursos" },
+  //   { title: "Habilitar" },
+  //   { title: "Acciones" },
+  // ];
 
 
   const options: Option[] = [
@@ -52,10 +50,15 @@ export const useTable = () => {
     },
   ];
 
+  // const pc = itemsTable.map((item:string)=>({title:item}));
+
+  const headers = header.map((item) => ({ title: item }));
+
+  
 
 
   return {
-    headers,
     options,
+    headers
   };
 };
